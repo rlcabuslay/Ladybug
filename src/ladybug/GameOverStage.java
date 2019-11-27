@@ -37,7 +37,6 @@ public class GameOverStage {
 		
 		Button exitbtn = new Button("Exit Game");
 		this.addEventHandler(exitbtn);
-		//dsfdfsdfsdfsds
 		
 		pane.getChildren().add(this.canvas);
 		pane.getChildren().add(exitbtn);

@@ -32,6 +32,7 @@ public class GameTimer extends AnimationTimer{
 	public static int multiplier=1;
 	public static int score=0;
 	public static int currentLevel=0;
+	public static int lives=3;
 	public static boolean takenX=false;
 	public static boolean takenT=false;
 	public static boolean takenR=false;

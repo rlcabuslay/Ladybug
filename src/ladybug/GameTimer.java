@@ -23,13 +23,30 @@ public class GameTimer extends AnimationTimer{
 	private ArrayList<Collectible> flowers;
 	private ArrayList<Collectible> hearts;
 	private ArrayList<Collectible> skulls;
-	private ArrayList<Collectible> vegetable; 
+	private ArrayList<Collectible> letters; 
+	private ArrayList<Collectible> vegetable;
 	private long startSpawn;
+	private long frozenSec;
+	private boolean disabled;
+	
 	public static int multiplier=1;
 	public static int score=0;
 	public static int currentLevel=0;
-	private long frozenSec;
-	private boolean disabled;
+	public static boolean takenX=false;
+	public static boolean takenT=false;
+	public static boolean takenR=false;
+	public static boolean takenS=false;
+	public static boolean takenP=false;
+	public static boolean takenC=false;
+	public static boolean takenI=false;
+	public static boolean takenL=false;
+	public static boolean takenAextra=false;
+	public static boolean takenEextra=false;
+	public static boolean takenAspecial=false;
+	public static boolean takenEspecial=false;
+	public static ArrayList<Character> extra = new ArrayList<Character>();
+	public static ArrayList<Character> special = new ArrayList<Character>();
+	
 	
 	
 	GameTimer(GraphicsContext gc, Scene theScene){
@@ -41,6 +58,7 @@ public class GameTimer extends AnimationTimer{
 		this.flowers = new ArrayList<Collectible>();
 		this.hearts = new ArrayList<Collectible>();
 		this.skulls = new ArrayList<Collectible>();
+		this.letters = new ArrayList<Collectible>();
 		this.vegetable = new ArrayList<Collectible>();
 		
 		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
@@ -60,6 +78,10 @@ public class GameTimer extends AnimationTimer{
 		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-120));
 		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-170));
 		
+		this.letters.add(new Collectible("XTR", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2));
+		this.letters.add(new Collectible("SPCIL", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+50));
+		this.letters.add(new Collectible("AE", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+100));
+		
 		this.startSpawn = System.nanoTime();
 		this.frozenSec=0;
 		
@@ -72,12 +94,16 @@ public class GameTimer extends AnimationTimer{
 	public void handle(long currentNanoTime) {
 		long currentSec = TimeUnit.NANOSECONDS.toSeconds(currentNanoTime);
 		long startSec = TimeUnit.NANOSECONDS.toSeconds(this.startSpawn);
-		long currentFrozenSec = TimeUnit.NANOSECONDS.toSeconds(currentNanoTime);
 		this.gc.clearRect(0, 0, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
 		this.gc.drawImage(GameStage.bg, 0, 0);
 		
 		this.ladybug.move();
+
 		this.ladybug.render(this.gc);
+		
+		if(this.ladybug.isAlive()==false) {
+			System.out.println("Game over!");
+		}
 		
 		for(Insect insect:this.insects) {
 			insect.move();
@@ -143,6 +169,9 @@ public class GameTimer extends AnimationTimer{
 			for(Collectible heart:this.hearts) {
 				heart.changeColorRed();
 			}
+			for(Collectible letter:this.letters) {
+				letter.changeColorRed();
+			}
 			
 		}
 		
@@ -150,12 +179,17 @@ public class GameTimer extends AnimationTimer{
 			for(Collectible heart:this.hearts) {
 				heart.changeColorYellow();
 			}
-			
+			for(Collectible letter:this.letters) {
+				letter.changeColorYellow();
+			}
 		}
 		
 		if((currentSec - startSec)%10 == 0) {
 			for(Collectible heart:this.hearts) {
 				heart.changeColorBlue();
+			}
+			for(Collectible letter:this.letters) {
+				letter.changeColorBlue();
 			}
 
 		}
@@ -205,13 +239,55 @@ public class GameTimer extends AnimationTimer{
 			vegetable.render(this.gc);
 		}
 		
-		if(this.flowers.size()==0&&this.hearts.size()==0) {
-			changeLevel(this.gc,this.theScene);
-			GameTimer.currentLevel++;
+		
+		
+		for (int i=0; i<this.letters.size(); i++) {
+			if(this.letters.get(i).collidesWith(this.ladybug)) {
+				this.letters.get(i).collide();
+				this.letters.remove(i);
+			}
 		}
 		
-		System.out.println(currentSec);
-		System.out.println(frozenSec);
+		for(Collectible letter:this.letters) {
+			letter.render(this.gc);
+		}
+		
+		
+		if(GameTimer.extra.size()==5) {
+			changeLevel(this.gc,this.theScene);
+			GameTimer.currentLevel++;
+			GameTimer.multiplier=1;
+			this.ladybug.increaseLife();
+			GameTimer.takenX=false;
+			GameTimer.takenT=false;
+			GameTimer.takenR=false;
+			GameTimer.takenAextra=false;
+			GameTimer.takenEextra=false;
+			GameTimer.extra.clear();
+		}
+		
+		if(GameTimer.special.size()==7) {
+			changeLevel(this.gc,this.theScene);
+			GameTimer.currentLevel++;
+			GameTimer.multiplier=1;
+			GameTimer.takenS=false;
+			GameTimer.takenP=false;
+			GameTimer.takenC=false;
+			GameTimer.takenI=false;
+			GameTimer.takenL=false;
+			GameTimer.takenAspecial=false;
+			GameTimer.takenEspecial=false;
+			GameTimer.special.clear();
+		}
+		
+		if(this.flowers.size()==0&&this.hearts.size()==0&&this.letters.size()==0) {
+			changeLevel(this.gc,this.theScene);
+			GameTimer.currentLevel++;
+			GameTimer.multiplier=1;
+		}
+		
+//		System.out.println(currentSec);
+//		System.out.println(frozenSec);
 	}
 	
 	private void changeLevel(GraphicsContext gc, Scene theScene) {
@@ -223,6 +299,7 @@ public class GameTimer extends AnimationTimer{
 		this.flowers = new ArrayList<Collectible>();
 		this.hearts = new ArrayList<Collectible>();
 		this.skulls = new ArrayList<Collectible>();
+		this.letters = new ArrayList<Collectible>();
 		this.vegetable = new ArrayList<Collectible>();
 		
 		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
@@ -242,10 +319,14 @@ public class GameTimer extends AnimationTimer{
 		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-120));
 		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-170));
 		
+		this.letters.add(new Collectible("XTR", GameStage.WINDOW_WIDTH/2-300,GameStage.WINDOW_HEIGHT/2));
+		this.letters.add(new Collectible("SPCIL", GameStage.WINDOW_WIDTH/2-300,GameStage.WINDOW_HEIGHT/2+50));
+		this.letters.add(new Collectible("AE", GameStage.WINDOW_WIDTH/2-300,GameStage.WINDOW_HEIGHT/2+100));
+		
 		this.startSpawn = System.nanoTime();
+		this.frozenSec=0;
 		
 		this.disabled=false;
-		this.frozenSec=0;
 		
 		this.handleKeyPressEvent();
 	}
@@ -300,7 +381,7 @@ public class GameTimer extends AnimationTimer{
 			}
 		}
 		
-		System.out.println(ke+" key pressed.");
+//		System.out.println(ke+" key pressed.");
    	}
 	
 	//method that will stop the ship's movement; set the ship's DX and DY to 0

@@ -1,58 +1,86 @@
 package ladybug;
 
 import javafx.scene.image.Image;
+import java.util.Random;
+
 
 public class Insect extends Sprite{
 	private String name;
-	private boolean alive;
+	private boolean released;
 	
-	public final static Image INSECT_IMAGE1 = new Image("images/Sprites/Characters/Insects/Insect1d.png",Insect.INSECT_WIDTH,Insect.INSECT_WIDTH,false,false);
+	public final static Image INSECT_IMAGE1 = new Image("images/Sprites/Characters/Insects/Insect1c.png",Insect.INSECT_WIDTH,Insect.INSECT_WIDTH,false,false);
+	public final static Image INSECT_IMAGE2 = new Image("images/Sprites/Characters/Insects/Insect2c.png",Insect.INSECT_WIDTH,Insect.INSECT_WIDTH,false,false);
+	public final static Image INSECT_IMAGE3 = new Image("images/Sprites/Characters/Insects/Insect3c.png",Insect.INSECT_WIDTH,Insect.INSECT_WIDTH,false,false);
+	public final static Image INSECT_IMAGE4 = new Image("images/Sprites/Characters/Insects/Insect4c.png",Insect.INSECT_WIDTH,Insect.INSECT_WIDTH,false,false);
+	public final static Image INSECT_IMAGE5 = new Image("images/Sprites/Characters/Insects/Insect5c.png",Insect.INSECT_WIDTH,Insect.INSECT_WIDTH,false,false);
+	public final static Image INSECT_IMAGE6 = new Image("images/Sprites/Characters/Insects/Insect6c.png",Insect.INSECT_WIDTH,Insect.INSECT_WIDTH,false,false);
+	public final static Image INSECT_IMAGE7 = new Image("images/Sprites/Characters/Insects/Insect7c.png",Insect.INSECT_WIDTH,Insect.INSECT_WIDTH,false,false);
+	public final static Image INSECT_IMAGE8 = new Image("images/Sprites/Characters/Insects/Insect8c.png",Insect.INSECT_WIDTH,Insect.INSECT_WIDTH,false,false);
 	private final static int INSECT_WIDTH = 50;
 
 	public Insect(String name, int x, int y){
 		super(x,y);
 		this.name = name;
-		this.alive = true;
+		Random r = new Random();
+		int rand=r.nextInt(8);
 		
-		this.loadImage(Insect.INSECT_IMAGE1);
+		if(rand==0) this.loadImage(Insect.INSECT_IMAGE1);
+		else if(rand==1) this.loadImage(Insect.INSECT_IMAGE2);
+		else if(rand==2) this.loadImage(Insect.INSECT_IMAGE3);
+		else if(rand==3) this.loadImage(Insect.INSECT_IMAGE4);
+		else if(rand==4) this.loadImage(Insect.INSECT_IMAGE5);
+		else if(rand==5) this.loadImage(Insect.INSECT_IMAGE6);
+		else if(rand==6) this.loadImage(Insect.INSECT_IMAGE7);
+		else if(rand==7) this.loadImage(Insect.INSECT_IMAGE8);
+		else this.loadImage(Insect.INSECT_IMAGE1);
+		
+		this.released=false;
 	}
 	
-	public boolean isAlive(){
-		if(this.alive) return true;
-		return false;
-	} 
 	public String getName(){
 		return this.name;
 	}
 
 	public void die(){
-    	this.alive = false;
+		this.setX(GameStage.WINDOW_WIDTH/2-25);
+		this.setY(GameStage.WINDOW_HEIGHT/2-20);
     }
+	
+	public void setReleased() {
+		this.released=true;
+	}
+	
+	public void setFrozen() {
+		this.released=false;
+	}
 
 	public void move() {
-    	this.x += this.dx;
-    	this.y += this.dy;
+		if(this.released==true) {
+//			Random r = new Random();
+//			int rand=r.nextInt(4);
+//			if(rand==0) this.setDX(1);
+//			else if(rand==1) this.setDX(-1);
+//			else if(rand==2) this.setDY(1);
+//			else if(rand==3) this.setDY(-1);
+			this.setDY(-1);
+			this.x += this.dx;
+	    	this.y += this.dy;
+		}
+    	
 	}
 	
 	//method to correct the position if INSECT is going off-screen
-	public void checkBounds() {
-    	if(this.getX()==5||this.getX()==4||this.getX()==3||this.getX()==2||this.getX()==1||this.getX()==0||this.getX()==-1||this.getX()==-2||this.getX()==-3||this.getX()==-4) {
-    		this.setDX(0);
-    		this.setX(getX()+1);
-    	}
-    	if(this.getX()==GameStage.WINDOW_WIDTH-45||this.getX()==GameStage.WINDOW_WIDTH-44||this.getX()==GameStage.WINDOW_WIDTH-43||this.getX()==GameStage.WINDOW_WIDTH-42||this.getX()==GameStage.WINDOW_WIDTH-41||this.getX()==GameStage.WINDOW_WIDTH-40||this.getX()==GameStage.WINDOW_WIDTH-39||this.getX()==GameStage.WINDOW_WIDTH-38||this.getX()==GameStage.WINDOW_WIDTH-37||this.getX()==GameStage.WINDOW_WIDTH-36){
-    		this.setDX(0);
-    		this.setX(getX()-1);
-    	}
-    	if(this.getY()==5||this.getY()==4||this.getY()==3||this.getY()==2||this.getY()==1||this.getY()==0||this.getY()==-1||this.getY()==-2||this.getY()==-3||this.getY()==-4){
-    		this.setDY(0);
-    		this.setY(getY()+1);
-    	}
-    	if(this.getY()==GameStage.WINDOW_HEIGHT-45||this.getY()==GameStage.WINDOW_HEIGHT-44||this.getY()==GameStage.WINDOW_HEIGHT-43||this.getY()==GameStage.WINDOW_HEIGHT-42||this.getY()==GameStage.WINDOW_HEIGHT-41||this.getY()==GameStage.WINDOW_HEIGHT-40||this.getY()==GameStage.WINDOW_HEIGHT-39||this.getY()==GameStage.WINDOW_HEIGHT-38||this.getY()==GameStage.WINDOW_HEIGHT-37||this.getY()==GameStage.WINDOW_HEIGHT-36) {
-    		this.setDY(0);
-    		this.setY(getY()-1);
-    	}
+	public void checkTurn() {
+		if(this.getX()==GameStage.WINDOW_WIDTH-50 || this.getX()==GameStage.WINDOW_WIDTH-40 || this.getX()==GameStage.WINDOW_WIDTH-30 || this.getX()==GameStage.WINDOW_WIDTH-20 || this.getX()==GameStage.WINDOW_WIDTH-10) {
+			this.setDX(-1);
+		}
+		else if(this.getX()==50 || this.getX()==40 || this.getX()==30 || this.getX()==20 || this.getX()==10) {
+			this.setDX(1);
+		}
+		
 	}
+	
+	
 
 }
 

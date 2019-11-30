@@ -28,6 +28,10 @@ public class Ladybug extends Sprite{
 	public String getName(){
 		return this.name;
 	}
+	
+	public void increaseLife() {
+		this.lives++;
+	}
 
 	public void die(){
 		this.lives--;

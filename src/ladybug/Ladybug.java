@@ -6,7 +6,6 @@ import javafx.scene.image.ImageView;
 public class Ladybug extends Sprite{
 	private String name;
 	private boolean alive;
-	private int lives;
 	
 	public final static Image LADYBUG_IMAGE = new Image("images/Sprites/Characters/LadyBug/LadyBug5.png",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
 	private final static int LADYBUG_WIDTH = 50;
@@ -15,7 +14,6 @@ public class Ladybug extends Sprite{
 		super(x,y);
 		this.name = name;
 		this.alive = true;
-		this.lives = 3;
 		
 		this.loadImage(Ladybug.LADYBUG_IMAGE);
 	}
@@ -30,13 +28,13 @@ public class Ladybug extends Sprite{
 	}
 	
 	public void increaseLife() {
-		this.lives++;
+		GameTimer.lives++;
 	}
 
 	public void die(){
-		this.lives--;
-		System.out.println(this.lives);
-		if(this.lives==0) {
+		GameTimer.lives--;
+		System.out.println("Lives: "+GameTimer.lives);
+		if(GameTimer.lives==0) {
 			this.alive = false;
 		}
 		else {

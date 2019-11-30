@@ -103,6 +103,7 @@ public class GameTimer extends AnimationTimer{
 		
 		if(this.ladybug.isAlive()==false) {
 			System.out.println("Game over!");
+			setGameOver(0);
 		}
 		
 		for(Insect insect:this.insects) {

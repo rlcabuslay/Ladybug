@@ -2,6 +2,8 @@ package ladybug;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
 import javafx.animation.AnimationTimer;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
@@ -17,106 +19,235 @@ public class GameTimer extends AnimationTimer{
 	private GraphicsContext gc;
 	private Scene theScene;
 	private Ladybug ladybug;
-//	private Hunter myHunter;
-//	private boolean shoot;
+	private ArrayList<Insect> insects;
+	private ArrayList<Collectible> flowers;
+	private ArrayList<Collectible> hearts;
+	private ArrayList<Collectible> skulls;
+	private ArrayList<Collectible> vegetable; 
+	private long startSpawn;
+	public static int multiplier=1;
+	public static int score=0;
+	public static int currentLevel=0;
+	private long frozenSec;
 	private boolean disabled;
-//	private int countShot;
-//	private ArrayList<Duck> ducks;
-//	private ArrayList<Bullet> bullets;
 	
 	
 	GameTimer(GraphicsContext gc, Scene theScene){
 		this.gc = gc;
 		this.theScene = theScene;
-//		Random r = new Random();
+
 		this.ladybug = new Ladybug("Buggy",GameStage.WINDOW_WIDTH/2-50,GameStage.WINDOW_HEIGHT/2+50);
+		this.insects = new ArrayList<Insect>();
+		this.flowers = new ArrayList<Collectible>();
+		this.hearts = new ArrayList<Collectible>();
+		this.skulls = new ArrayList<Collectible>();
+		this.vegetable = new ArrayList<Collectible>();
 		
-		//randomize hunter's position
-//		this.myHunter = new Hunter("Megaman",r.nextInt(GameStage.WINDOW_WIDTH-50),r.nextInt(GameStage.WINDOW_HEIGHT-50));
-//		this.ducks = new ArrayList<Duck>();
-//		this.bullets = new ArrayList<Bullet>();
+		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+		
+		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2));
+		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+30));
+		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+60));
+		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+90));
+		
+		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2));
+		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+50));
+		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+100));
+		
+		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-120));
+		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-170));
+		
+		this.startSpawn = System.nanoTime();
+		this.frozenSec=0;
+		
 		this.disabled=false;
-//		this.countShot=0;
 		
-		//randomize duck's y position
-//		this.ducks.add(new Duck("Duck1",GameStage.WINDOW_WIDTH/2,r.nextInt(GameStage.WINDOW_HEIGHT-100)));
-//		this.ducks.add(new Duck("Duck2",GameStage.WINDOW_WIDTH/2,r.nextInt(GameStage.WINDOW_HEIGHT-100)));
-//		this.ducks.add(new Duck("Duck3",GameStage.WINDOW_WIDTH/2,r.nextInt(GameStage.WINDOW_HEIGHT-100)));
-		//call method to handle mouse click event
 		this.handleKeyPressEvent();
 	}
 
 	@Override
 	public void handle(long currentNanoTime) {
+		long currentSec = TimeUnit.NANOSECONDS.toSeconds(currentNanoTime);
+		long startSec = TimeUnit.NANOSECONDS.toSeconds(this.startSpawn);
+		long currentFrozenSec = TimeUnit.NANOSECONDS.toSeconds(currentNanoTime);
 		this.gc.clearRect(0, 0, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
-		this.gc.drawImage( GameStage.bg, 0, 0 );
+		this.gc.drawImage(GameStage.bg, 0, 0);
 		
 		this.ladybug.move();
 		this.ladybug.render(this.gc);
 		
-//		check if hunter is alive; disable movements if dead
-//		if(this.myHunter.isAlive()==false) this.disabled=true;
-//		
-//		//checks if the hunter is about to go off-screen and corrects position
-//		this.myHunter.checkBounds();
-//		
-//		//call the methods to move the hunter
-//		if(this.disabled==false) this.myHunter.move();
-//		//call the methods to move the bullet
-//		for(Bullet bullet:this.bullets) {
-//			if(this.disabled==false) bullet.move();
-//		}
-//		//call the methods to move the duck
-//		for(Duck duck:this.ducks) {
-//			if(this.disabled==false) duck.move();
-//			//checks duck's bounds and turns duck around if reached
-//			duck.checkTurn();
-//			//checks duck's collision with hunter; if true, kills hunter and sets to game over loss 
-//			if(duck.collidesWith(this.myHunter)) {
-//				this.myHunter.die();
-//				setGameOver(0);
-//			}
-//			//checks duck's collision with bullet; if true, sets bullet and duck position out of screen and kills duck
-//			for(Bullet bullet:this.bullets) {
-//				if(duck.collidesWith(bullet)) {
-//					bullet.setX(-100);
-//					bullet.setY(-100);
-//					duck.setX(-100);
-//					duck.setY(-100);
-//					duck.die();
-//				}
-//			}
-//		}
-//		
-//		//checks how many ducks are currently dead, and sets game over win if all 3 ducks are killed
-//		this.countShot=0;
-//		for(Duck duck:this.ducks) {
-//			if(duck.getAlive()==false) {
-//				this.countShot+=1;
-//			}
-//			if(this.countShot==3) {
-//				this.disabled=true;
-//				setGameOver(1);
-//				break;
-//			}
-//		}
-//
-//		//adds a new bullet and moves it to the right
-//		if(this.shoot==true) {
-//			this.bullets.add(new Bullet("Bullet",this.myHunter.getX()+20,this.myHunter.getY()+20));
-//			this.bullets.get(this.bullets.size()-1).setDX(20);
-//			this.shoot=false;
-//		}
-//		
-//		//render the hunter, ducks, and bullets
-//		this.myHunter.render(this.gc);
-//		for(Duck duck:this.ducks) {
-//			duck.render(this.gc);
-//		}
-//		for(Bullet bullet:this.bullets) {
-//			bullet.render(this.gc);
-//		}
+		for(Insect insect:this.insects) {
+			insect.move();
+			if(insect.collidesWith(this.ladybug)) {
+				this.ladybug.die();
+			}
+			for (int i=0; i<this.skulls.size(); i++) {
+				if(this.skulls.get(i).collidesWith(insect)) {
+					this.skulls.get(i).collide();
+					this.skulls.remove(i);
+					insect.die();
+				}
+			}
+		}
 		
+		
+		if((currentSec - startSec) == 0) {
+			this.insects.get(0).setReleased();
+			
+		}
+		
+		if((currentSec - startSec) == 3) {
+			this.insects.get(1).setReleased();
+			
+		}
+		
+		if((currentSec - startSec) == 6) {
+			this.insects.get(2).setReleased();
+			
+		}
+		
+		if((currentSec - startSec) == 9) {
+			this.insects.get(3).setReleased();
+			this.vegetable.add(new Collectible("Vegetable",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+		}
+		
+		
+		for(Insect insect:this.insects) {
+			insect.render(this.gc);
+		}
+		
+		
+		for (int i=0; i<this.flowers.size(); i++) {
+			if(this.flowers.get(i).collidesWith(this.ladybug)) {
+				this.flowers.get(i).collide();
+				this.flowers.remove(i);
+			}
+		}
+		
+		for(Collectible flower:this.flowers) {
+			flower.render(this.gc);
+		}
+		
+		for (int i=0; i<this.hearts.size(); i++) {
+			if(this.hearts.get(i).collidesWith(this.ladybug)) {
+				this.hearts.get(i).collide();
+				this.hearts.remove(i);
+			}
+		}
+		
+		
+		if((currentSec - startSec) == 1 || (currentSec - startSec)%11 == 0) {
+			for(Collectible heart:this.hearts) {
+				heart.changeColorRed();
+			}
+			
+		}
+		
+		if((currentSec - startSec) == 4 || (currentSec - startSec)%14 == 0) {
+			for(Collectible heart:this.hearts) {
+				heart.changeColorYellow();
+			}
+			
+		}
+		
+		if((currentSec - startSec)%10 == 0) {
+			for(Collectible heart:this.hearts) {
+				heart.changeColorBlue();
+			}
+
+		}
+		
+		for(Collectible heart:this.hearts) {
+			heart.render(this.gc);
+		}
+		
+		
+		
+		for(Collectible skull:this.skulls) {
+			if(this.ladybug.collidesWith(skull)) {
+				this.ladybug.die();
+				skull.collide();
+			}
+		}
+		
+		for(Collectible skull:this.skulls) {
+			skull.render(this.gc);
+		}
+		
+		
+		
+		for (int i=0; i<this.vegetable.size(); i++) {
+			if(this.vegetable.get(i).collidesWith(this.ladybug)) {
+				this.vegetable.get(i).collide();
+				this.vegetable.remove(i);
+				this.disabled=true;
+				frozenSec = currentSec+4;
+				for(Insect insect:this.insects) {
+					insect.setFrozen();
+				}
+			}
+		}
+		
+		if(this.disabled==true) {
+			if(currentSec==frozenSec) {
+				for(Insect insect:this.insects) {
+					insect.setReleased();
+				}
+				this.disabled=false;
+			}
+		}
+		
+		
+		for(Collectible vegetable:this.vegetable) {
+			vegetable.render(this.gc);
+		}
+		
+		if(this.flowers.size()==0&&this.hearts.size()==0) {
+			changeLevel(this.gc,this.theScene);
+			GameTimer.currentLevel++;
+		}
+		
+		System.out.println(currentSec);
+		System.out.println(frozenSec);
+	}
+	
+	private void changeLevel(GraphicsContext gc, Scene theScene) {
+		this.gc = gc;
+		this.theScene = theScene;
+
+		this.ladybug = new Ladybug("Buggy",GameStage.WINDOW_WIDTH/2-50,GameStage.WINDOW_HEIGHT/2+50);
+		this.insects = new ArrayList<Insect>();
+		this.flowers = new ArrayList<Collectible>();
+		this.hearts = new ArrayList<Collectible>();
+		this.skulls = new ArrayList<Collectible>();
+		this.vegetable = new ArrayList<Collectible>();
+		
+		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+		
+		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2));
+		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+30));
+		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+60));
+		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+90));
+		
+		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2));
+		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+50));
+		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+100));
+		
+		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-120));
+		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-170));
+		
+		this.startSpawn = System.nanoTime();
+		
+		this.disabled=false;
+		this.frozenSec=0;
+		
+		this.handleKeyPressEvent();
 	}
 	
 	private void setGameOver(int num){
@@ -156,7 +287,6 @@ public class GameTimer extends AnimationTimer{
 	//method that will move the ship depending on the key pressed
 	private void moveMyHunter(KeyCode ke) {
 		{
-		if(this.disabled==false) {
 			if(ke==KeyCode.UP) this.ladybug.setDY(-10);                 
 	
 			if(ke==KeyCode.LEFT) this.ladybug.setDX(-10);
@@ -165,10 +295,8 @@ public class GameTimer extends AnimationTimer{
 			
 			if(ke==KeyCode.RIGHT) this.ladybug.setDX(10);
 			
-		}
 			
 			if(ke==KeyCode.SPACE) {
-//				this.shoot=true;
 			}
 		}
 		
@@ -179,7 +307,6 @@ public class GameTimer extends AnimationTimer{
 	private void stopMyHunter(KeyCode ke){
 		this.ladybug.setDX(0);
 		this.ladybug.setDY(0);
-//		this.shoot=false;
 	}
 
 	

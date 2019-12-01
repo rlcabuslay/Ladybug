@@ -31,15 +31,15 @@ public class GameStage {
 	private GridPane map;
 	private GameTimer gametimer;
 		
-	public final static int MAP_WIDTH = 400;
-	public final static int MAP_HEIGHT = 400;
-	public final static boolean IS_GAME_DONE = false;
-	public final static int WINDOW_WIDTH = 1000;
-	public final static int WINDOW_HEIGHT = 1000;
+	public final static int MAP_WIDTH = 760; //190 pixels
+	public final static int MAP_HEIGHT = 760; //190 pixels
+	public final static int WINDOW_WIDTH = 760; //190 pixels
+	public final static int WINDOW_HEIGHT = 952; //238 pixels
 	
-	public final static Image bg = new Image("images/LadyBugMaze.png",1000,1000,false,false);
-	private final String STYLE_NORMAL = "-fx-background-color: transparent; -fx-padding: 5, 5, 5, 5;";
-	private final String STYLE_PRESSED = "-fx-background-color: transparent; -fx-padding: 6 4 4 6;";
+	public final static boolean IS_GAME_DONE = false;
+	
+	public final static Image bg = new Image("images/LadyBugMaze.png", MAP_WIDTH, MAP_HEIGHT,false,false);
+	public final static Image top = new Image("images/Sprites/Arcade - Lady Bug - Maze (5).png",MAP_WIDTH,64,false,false);
 	
 	public GameStage() {
 		this.root = new Group();
@@ -54,20 +54,23 @@ public class GameStage {
 	public void setStage(Stage stage) {
 		this.stage = stage;
 		//draw the background to the canvas at location x=0, y=60
-		this.gc.drawImage( bg, 0, 0 );				     
+		this.gc.setFill(Color.BLACK);
+		this.gc.fillRect(0, 0, GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
+		this.gc.drawImage(top, 0, 0);
+		this.gc.drawImage(bg, 0, 64);			     
 		
-        Button play_btn = new Button("back tayo");
-  
-        play_btn.setLayoutX(373);
-        play_btn.setLayoutY(455);
-        
-        play_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override public void handle(MouseEvent e) {
-            	back();
-            	play_btn.setStyle(STYLE_PRESSED);
-                System.out.println("Back");
-            }
-        });
+		Button play_btn = new Button("back tayo");
+
+		play_btn.setLayoutX(0);
+        	play_btn.setLayoutY(0);
+
+		play_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		    @Override public void handle(MouseEvent e) {
+			back();
+			System.out.println("Back");
+		    }
+		});
+		
 		this.gametimer.start();
 		//set stage elements here	     
 		this.root.getChildren().add(canvas);

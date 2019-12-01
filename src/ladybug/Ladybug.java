@@ -7,8 +7,8 @@ public class Ladybug extends Sprite{
 	private String name;
 	private boolean alive;
 	
-	public final static Image LADYBUG_IMAGE = new Image("images/Sprites/Characters/LadyBug/LadyBug5.png",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
-	private final static int LADYBUG_WIDTH = 50;
+	public final static Image LADYBUG_IMAGE = new Image("images/Sprites/Characters/LadyBug/LadyBug5.png", Ladybug.LADYBUG_WIDTH, Ladybug.LADYBUG_WIDTH, false, false);
+	private final static int LADYBUG_WIDTH = 64;
 
 	public Ladybug(String name, int x, int y){
 		super(x,y);
@@ -49,8 +49,8 @@ public class Ladybug extends Sprite{
 		final ImageView selectedImage = new ImageView();
 		selectedImage.setImage(LADYBUG_IMAGE);
 		selectedImage.setRotate(90);
-    	this.x += this.dx;
-    	this.y += this.dy;
+		this.x += this.dx;
+		this.y += this.dy;
 	}
 	
 	//method to correct the position if LADYBUG is going off-screen

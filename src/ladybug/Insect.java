@@ -16,7 +16,7 @@ public class Insect extends Sprite{
 	public final static Image INSECT_IMAGE6 = new Image("images/Sprites/Characters/Insects/Insect6c.png",Insect.INSECT_WIDTH,Insect.INSECT_WIDTH,false,false);
 	public final static Image INSECT_IMAGE7 = new Image("images/Sprites/Characters/Insects/Insect7c.png",Insect.INSECT_WIDTH,Insect.INSECT_WIDTH,false,false);
 	public final static Image INSECT_IMAGE8 = new Image("images/Sprites/Characters/Insects/Insect8c.png",Insect.INSECT_WIDTH,Insect.INSECT_WIDTH,false,false);
-	private final static int INSECT_WIDTH = 50;
+	private final static int INSECT_WIDTH = 64;
 
 	public Insect(String name, int x, int y){
 		super(x,y);

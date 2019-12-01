@@ -7,7 +7,7 @@ public class Ladybug extends Sprite{
 	private String name;
 	private boolean alive;
 	
-	public final static Image LADYBUG_IMAGE = new Image("images/Sprites/Characters/LadyBug/LadyBug5.png", Ladybug.LADYBUG_WIDTH, Ladybug.LADYBUG_WIDTH, false, false);
+	public final static Image LADYBUG_IMAGE = new Image("images/Sprites/Characters/LadyBug/LadyBugR.gif",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
 	private final static int LADYBUG_WIDTH = 64;
 
 	public Ladybug(String name, int x, int y){

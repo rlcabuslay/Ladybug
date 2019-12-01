@@ -33,6 +33,9 @@ public class GameTimer extends AnimationTimer{
 	public static int score=0;
 	public static int currentLevel=0;
 	public static int lives=3;
+	public static int timeSped=15;
+	public static int insectTime=1;
+	public static boolean vegetablePresent=false;
 	public static boolean takenX=false;
 	public static boolean takenT=false;
 	public static boolean takenR=false;
@@ -115,39 +118,43 @@ public class GameTimer extends AnimationTimer{
 			setGameOver(0);
 		}
 		
-		for(Insect insect:this.insects) {
-			insect.move();
-			if(insect.collidesWith(this.ladybug)) {
+		for(int i=0; i<this.insects.size(); i++) {
+			this.insects.get(i).move();
+			if(this.insects.get(i).collidesWith(this.ladybug)) {
 				this.ladybug.die();
 			}
-			for (int i=0; i<this.skulls.size(); i++) {
-				if(this.skulls.get(i).collidesWith(insect)) {
-					this.skulls.get(i).collide();
-					this.skulls.remove(i);
-					insect.die();
+			for (int j=0; j<this.skulls.size(); j++) {
+				if(this.skulls.get(j).collidesWith(this.insects.get(i))) {
+					this.skulls.get(j).collide();
+					this.skulls.remove(j);
+					this.insects.get(i).die();
+					if(GameTimer.vegetablePresent==true) {
+						this.vegetable.add(new Collectible("Vegetable",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+					}
 				}
 			}
 		}
 		
 		
-		if((currentSec - startSec) == 0) {
-			this.insects.get(0).setReleased();
-			
-		}
-		
-		if((currentSec - startSec) == 3) {
-			this.insects.get(1).setReleased();
-			
-		}
-		
-		if((currentSec - startSec) == 6) {
-			this.insects.get(2).setReleased();
-			
-		}
-		
-		if((currentSec - startSec) == 9) {
-			this.insects.get(3).setReleased();
-			this.vegetable.add(new Collectible("Vegetable",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+		if((currentSec - startSec) == GameTimer.timeSped*GameTimer.insectTime) {
+			if(this.insects.get(0).getReleased()==false) {
+				this.insects.get(0).setReleased();
+				GameTimer.insectTime++;
+			}
+			else if(this.insects.get(1).getReleased()==false&&this.insects.get(0).getReleased()==true) {
+				this.insects.get(1).setReleased();
+				GameTimer.insectTime++;
+			}
+			else if(this.insects.get(2).getReleased()==false&&(this.insects.get(1).getReleased()==true||this.insects.get(0).getReleased()==true)) {
+				this.insects.get(2).setReleased();
+				GameTimer.insectTime++;
+			}
+			else if(this.insects.get(3).getReleased()==false&&(this.insects.get(2).getReleased()==true||this.insects.get(1).getReleased()==true||this.insects.get(0).getReleased()==true)) {
+				this.insects.get(3).setReleased();
+				GameTimer.insectTime++;
+				this.vegetable.add(new Collectible("Vegetable",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+				GameTimer.vegetablePresent=true;
+			}
 		}
 		
 		
@@ -211,7 +218,7 @@ public class GameTimer extends AnimationTimer{
 		
 		
 		for(Collectible skull:this.skulls) {
-			if(this.ladybug.collidesWith(skull)) {
+			if(skull.collidesWith(this.ladybug)) {
 				this.ladybug.die();
 				skull.collide();
 			}
@@ -264,9 +271,13 @@ public class GameTimer extends AnimationTimer{
 		
 		
 		if(GameTimer.extra.size()==5) {
-			changeLevel(this.gc,this.theScene);
+			changeLevel();
 			GameTimer.currentLevel++;
 			GameTimer.multiplier=1;
+			GameTimer.insectTime=1;
+			GameTimer.vegetablePresent=false;
+			if(GameTimer.currentLevel==1) GameTimer.timeSped-=5;
+			if(GameTimer.currentLevel==4) GameTimer.timeSped-=5;
 			this.ladybug.increaseLife();
 			GameTimer.takenX=false;
 			GameTimer.takenT=false;
@@ -277,9 +288,13 @@ public class GameTimer extends AnimationTimer{
 		}
 		
 		if(GameTimer.special.size()==7) {
-			changeLevel(this.gc,this.theScene);
+			changeLevel();
 			GameTimer.currentLevel++;
 			GameTimer.multiplier=1;
+			GameTimer.insectTime=1;
+			GameTimer.vegetablePresent=false;
+			if(GameTimer.currentLevel==1) GameTimer.timeSped-=5;
+			if(GameTimer.currentLevel==4) GameTimer.timeSped-=5;
 			GameTimer.takenS=false;
 			GameTimer.takenP=false;
 			GameTimer.takenC=false;
@@ -291,20 +306,26 @@ public class GameTimer extends AnimationTimer{
 		}
 		
 		if(this.flowers.size()==0&&this.hearts.size()==0&&this.letters.size()==0) {
-			changeLevel(this.gc,this.theScene);
+			PauseTransition pause = new PauseTransition(Duration.seconds(0.15));
+			pause.setOnFinished(new EventHandler<ActionEvent>() {
+						
+				public void handle(ActionEvent arg0) {
+					changeLevel();
+				}
+			});
+			pause.play();
 			GameTimer.currentLevel++;
 			GameTimer.multiplier=1;
+			GameTimer.insectTime=1;
+			GameTimer.vegetablePresent=false;
+			if(GameTimer.currentLevel==1) GameTimer.timeSped-=5;
+			if(GameTimer.currentLevel==4) GameTimer.timeSped-=5;
 		}
 		
-//		System.out.println(currentSec);
-//		System.out.println(frozenSec);
 	}
 	
-	private void changeLevel(GraphicsContext gc, Scene theScene) {
-		this.gc = gc;
-		this.theScene = theScene;
-
-		this.ladybug = new Ladybug("Buggy",GameStage.WINDOW_WIDTH/2-50,GameStage.WINDOW_HEIGHT/2+50);
+	private void changeLevel() {
+		this.ladybug = new Ladybug("Buggy", 348, 604);
 		this.insects = new ArrayList<Insect>();
 		this.flowers = new ArrayList<Collectible>();
 		this.hearts = new ArrayList<Collectible>();
@@ -329,9 +350,9 @@ public class GameTimer extends AnimationTimer{
 		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-120));
 		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-170));
 		
-		this.letters.add(new Collectible("XTR", GameStage.WINDOW_WIDTH/2-300,GameStage.WINDOW_HEIGHT/2));
-		this.letters.add(new Collectible("SPCIL", GameStage.WINDOW_WIDTH/2-300,GameStage.WINDOW_HEIGHT/2+50));
-		this.letters.add(new Collectible("AE", GameStage.WINDOW_WIDTH/2-300,GameStage.WINDOW_HEIGHT/2+100));
+		this.letters.add(new Collectible("XTR", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2));
+		this.letters.add(new Collectible("SPCIL", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+50));
+		this.letters.add(new Collectible("AE", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+100));
 		
 		this.startSpawn = System.nanoTime();
 		this.frozenSec=0;

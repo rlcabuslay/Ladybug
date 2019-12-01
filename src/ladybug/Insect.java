@@ -42,6 +42,7 @@ public class Insect extends Sprite{
 	}
 
 	public void die(){
+		this.released=false;
 		this.setX(GameStage.WINDOW_WIDTH/2-25);
 		this.setY(GameStage.WINDOW_HEIGHT/2-20);
     }

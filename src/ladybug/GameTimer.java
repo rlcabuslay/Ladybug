@@ -54,7 +54,7 @@ public class GameTimer extends AnimationTimer{
 		this.gc = gc;
 		this.theScene = theScene;
 
-		this.ladybug = new Ladybug("Buggy",GameStage.WINDOW_WIDTH/2-50,GameStage.WINDOW_HEIGHT/2+50);
+		this.ladybug = new Ladybug("Buggy", 348, 604);
 		this.insects = new ArrayList<Insect>();
 		this.flowers = new ArrayList<Collectible>();
 		this.hearts = new ArrayList<Collectible>();
@@ -96,7 +96,15 @@ public class GameTimer extends AnimationTimer{
 		long currentSec = TimeUnit.NANOSECONDS.toSeconds(currentNanoTime);
 		long startSec = TimeUnit.NANOSECONDS.toSeconds(this.startSpawn);
 		this.gc.clearRect(0, 0, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
-		this.gc.drawImage(GameStage.bg, 0, 0);
+		
+		//redraw background elements
+		this.gc.setFill(Color.BLACK);
+		this.gc.fillRect(0, 0, GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
+		this.gc.drawImage(GameStage.top, 0, 0);
+		this.gc.drawImage(GameStage.bg, 0, 64);
+		this.gc.drawImage(Ladybug.LADYBUG_IMAGE, 28, 824);
+		this.gc.drawImage(Ladybug.LADYBUG_IMAGE, 28+64, 824);
+		this.gc.drawImage(Ladybug.LADYBUG_IMAGE, 28, 92);
 		
 		this.ladybug.move();
 

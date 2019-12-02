@@ -51,6 +51,10 @@ public class Insect extends Sprite{
 		this.released=true;
 	}
 	
+	public boolean getReleased() {
+		return this.released;
+	}
+	
 	public void setFrozen() {
 		this.released=false;
 	}

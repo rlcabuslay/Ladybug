@@ -67,7 +67,7 @@ public class About {
 //      Creating the help scene
         
 		this.scene = new Scene(box,SplashStage.WINDOW_WIDTH,SplashStage.WINDOW_HEIGHT);
-		this.scene.getStylesheets().addAll(this.getClass().getResource("ladybug.css").toExternalForm());
+		this.scene.getStylesheets().addAll(this.getClass().getResource("application.css").toExternalForm());
 		
 		window.setScene(this.scene);
 	}

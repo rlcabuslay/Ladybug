@@ -45,12 +45,13 @@ public class Ladybug extends Sprite{
 	
 
 	public void move() {
-		//try to rotate image
-		final ImageView selectedImage = new ImageView();
-		selectedImage.setImage(LADYBUG_IMAGE);
-		selectedImage.setRotate(90);
-		this.x += this.dx;
-		this.y += this.dy;
+		int tempX = this.x + this.dx;
+		int tempY = this.y + this.dy;
+
+		if(tempX + 8 > 28 && tempX < GameStage.WINDOW_WIDTH - (28+60))
+			this.x = tempX;
+		if(tempY + 8 > 28 + 64 && tempY < GameStage.WINDOW_HEIGHT - (28+64+64+60))
+			this.y = tempY;    
 	}
 	
 	//method to correct the position if LADYBUG is going off-screen

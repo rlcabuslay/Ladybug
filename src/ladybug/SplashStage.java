@@ -29,6 +29,8 @@ public class SplashStage {
 	private Canvas canvas;
 	private GraphicsContext gc;
 	private GridPane map;
+	private Help help;
+	private About about;
 		
 	public final static int MAP_WIDTH = 400;
 	public final static int MAP_HEIGHT = 400;
@@ -49,6 +51,8 @@ public class SplashStage {
 		this.canvas = new Canvas(SplashStage.WINDOW_WIDTH,SplashStage.WINDOW_HEIGHT);	
 		this.gc = canvas.getGraphicsContext2D();
 		this.map = new GridPane();
+		this.help = new Help();
+		this.about = new About();
 	}
 
 	//method to add the stage elements
@@ -85,18 +89,11 @@ public class SplashStage {
                 System.out.println("Accepted Play");
             }
         });
-        help_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override public void handle(MouseEvent e) {
-            	help_btn.setStyle(STYLE_PRESSED);
-                System.out.println("Accepted Help");
-            }
-        });	
-        about_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override public void handle(MouseEvent e) {
-            	about_btn.setStyle(STYLE_PRESSED);
-                System.out.println("Accepted About");
-            }
-        });
+	
+	help_btn.setOnMouseClicked(e -> this.help.switchScene(this.stage,this);
+	
+	about_btn.setOnMouseClicked(e -> this.about.switchScene(this.stage,this);
+				   
         
 		//set stage elements here	     
 		this.root.getChildren().add(canvas);
@@ -123,5 +120,10 @@ public class SplashStage {
 		pause.play();
 	}
 	
+	public Scene getScene(){
+		return this.scene;
+	}
+	
+				   
 }
 

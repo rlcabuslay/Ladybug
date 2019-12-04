@@ -1,34 +1,19 @@
 package ladybug;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
-
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.paint.Color;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.scene.control.Button;
 
 public class SplashStage {
+	private Stage window;
 	private Scene scene;
-	private Stage stage;
-	private Group root;
-	private Canvas canvas;
-	private GraphicsContext gc;
-	private GridPane map;
 	private Help help;
 	private About about;
 		
@@ -38,72 +23,46 @@ public class SplashStage {
 	public final static int WINDOW_WIDTH = 1000;
 	public final static int WINDOW_HEIGHT = 1000;
 	
-	public final Image bg = new Image("images/splashscreen.png",1000,1000,false,false);
-	public final Image PLAY_IMAGE = new Image("images/play.PNG",250,100,false,false);
-	public final Image HELP_IMAGE = new Image("images/help.PNG",250,100,false,false);
-	public final Image ABOUT_IMAGE = new Image("images/about.PNG",250,100,false,false);
 	private final String STYLE_NORMAL = "-fx-background-color: transparent; -fx-padding: 5, 5, 5, 5;";
 	private final String STYLE_PRESSED = "-fx-background-color: transparent; -fx-padding: 6 4 4 6;";
 	
 	public SplashStage() {
-		this.root = new Group();
-		this.scene = new Scene(root, SplashStage.WINDOW_WIDTH,SplashStage.WINDOW_HEIGHT,Color.WHITE);	
-		this.canvas = new Canvas(SplashStage.WINDOW_WIDTH,SplashStage.WINDOW_HEIGHT);	
-		this.gc = canvas.getGraphicsContext2D();
-		this.map = new GridPane();
 		this.help = new Help();
 		this.about = new About();
 	}
 
 	//method to add the stage elements
-	public void setStage(Stage stage) {
-		this.stage = stage;
-		//draw the background to the canvas at location x=0, y=60
-		this.gc.drawImage( bg, 0, 0 );				     
+	public void setStage(Stage primaryStage) {
+		this.window = primaryStage;
+//		Creating the Play Button
+		Button playButton = new Button("Play");
+		playButton.setOnAction(e -> startGame());
 		
-        Button play_btn = new Button();
-        Button help_btn = new Button();
-        Button about_btn = new Button();
-        
-        play_btn.setGraphic(new ImageView(PLAY_IMAGE));
-        help_btn.setGraphic(new ImageView(HELP_IMAGE));
-        about_btn.setGraphic(new ImageView(ABOUT_IMAGE));
-        
-        play_btn.setStyle(STYLE_NORMAL);
-        help_btn.setStyle(STYLE_NORMAL);
-        about_btn.setStyle(STYLE_NORMAL);
-        
-        play_btn.setLayoutX(373);
-        play_btn.setLayoutY(455);
-        
-        help_btn.setLayoutX(373);
-        help_btn.setLayoutY(600);
-        
-        about_btn.setLayoutX(373);
-        about_btn.setLayoutY(745);
-        
-        play_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override public void handle(MouseEvent e) {
-            	startGame();
-            	play_btn.setStyle(STYLE_PRESSED);
-                System.out.println("Accepted Play");
-            }
-        });
-	
-	help_btn.setOnMouseClicked(e -> this.help.switchScene(this.stage,this);
-	
-	about_btn.setOnMouseClicked(e -> this.about.switchScene(this.stage,this);
-				   
-        
-		//set stage elements here	     
-		this.root.getChildren().add(canvas);
-		this.root.getChildren().add(map);		
-		this.root.getChildren().add(play_btn);
-		this.root.getChildren().add(help_btn);
-		this.root.getChildren().add(about_btn);
-		this.stage.setTitle("Ladybug Arcade Game");
-		this.stage.setScene(this.scene);
-		this.stage.show();
+//		Creating the Help Button
+		Button helpButton = new Button("Help");
+		helpButton.setOnAction(e -> this.help.switchScene(primaryStage,this));
+		
+//		Creating the About Button
+		Button aboutButton = new Button("About");
+		aboutButton.setOnAction(e -> this.about.switchScene(primaryStage,this));
+		
+//		Creating the layout for buttons
+		VBox menuBox = new VBox(50);
+		menuBox.setPadding(new Insets(300,0,0,0));
+		
+//		Adding the buttons to the layout
+		menuBox.getChildren().addAll(playButton,helpButton,aboutButton);
+		
+//		Aligning the buttons to the center
+		menuBox.setAlignment(Pos.CENTER);
+		
+//		Setting the id name for styling
+		menuBox.setId("pane");
+		this.scene =  new Scene(menuBox,SplashStage.WINDOW_WIDTH,SplashStage.WINDOW_HEIGHT);
+		this.scene.getStylesheets().addAll(this.getClass().getResource("ladybug.css").toExternalForm());
+		this.window.setScene(this.scene);
+		this.window.setTitle("LadyBug Arcade Game");
+		this.window.show();
 	}
 	
 	public void startGame(){
@@ -113,8 +72,8 @@ public class SplashStage {
 			
 			public void handle(ActionEvent arg0) {
 				GameStage theGameStage = new GameStage();
-				theGameStage.setStage(stage);
-				stage.setScene(theGameStage.getScene());
+				theGameStage.setStage(window);
+				window.setScene(theGameStage.getScene());
 			}
 		});
 		pause.play();

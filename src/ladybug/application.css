@@ -1,9 +1,8 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 #pane{
     -fx-background-image: url("images/splashscreen.png");
     -fx-background-repeat: stretch;   
-    -fx-background-size: 600 600;	
+    -fx-background-size: 1000 1000;	
     -fx-background-position: center center;
     -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); 
 }
@@ -13,7 +12,7 @@
 	-fx-text-fill: white;
 	-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
 	-fx-font-family: "Impact";
-	-fx-font-size: 20px;
+	-fx-font-size: 40px;
 	-fx-border-width: 2px;
 	-fx-border-color: black;
 	-fx-opacity: .8;
@@ -26,7 +25,7 @@
 	-fx-text-fill: white;
 	-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
 	-fx-font-family: "Impact";
-	-fx-font-size: 20px;
+	-fx-font-size: 40px;
 	-fx-border-width: 2px;
 	-fx-border-color: black;
 	-fx-opacity: 1;
@@ -36,7 +35,7 @@
 
 #title{
 	-fx-fill: white;
-	-fx-font-size: 30px;
+	-fx-font-size: 80px;
 	-fx-font-family: "Impact";
 	-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 10, 0.0 , 0 , 1 );
 }

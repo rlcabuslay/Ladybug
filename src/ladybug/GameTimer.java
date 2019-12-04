@@ -168,6 +168,9 @@ public class GameTimer extends AnimationTimer{
 			this.insects.get(i).move();
 			if(this.insects.get(i).collidesWith(this.ladybug)) {
 				this.ladybug.die();
+				for(Insect insect:this.insects) {
+					insect.die();
+				}
 			}
 			for (int j=0; j<this.skulls.size(); j++) {
 				if(this.skulls.get(j).collidesWith(this.insects.get(i))) {
@@ -263,10 +266,14 @@ public class GameTimer extends AnimationTimer{
 		
 		
 		
-		for(Collectible skull:this.skulls) {
-			if(skull.collidesWith(this.ladybug)) {
+		for (int i=0; i<this.skulls.size(); i++) {
+			if(this.skulls.get(i).collidesWith(this.ladybug)) {
 				this.ladybug.die();
-				skull.collide();
+				this.skulls.get(i).collide();
+				this.skulls.remove(i);
+				for(Insect insect:this.insects) {
+					insect.die();
+				}
 			}
 		}
 		

@@ -73,19 +73,5 @@ public class Insect extends Sprite{
 		}
     	
 	}
-	
-	//method to correct the position if INSECT is going off-screen
-	public void checkTurn() {
-		if(this.getX()==GameStage.WINDOW_WIDTH-50 || this.getX()==GameStage.WINDOW_WIDTH-40 || this.getX()==GameStage.WINDOW_WIDTH-30 || this.getX()==GameStage.WINDOW_WIDTH-20 || this.getX()==GameStage.WINDOW_WIDTH-10) {
-			this.setDX(-1);
-		}
-		else if(this.getX()==50 || this.getX()==40 || this.getX()==30 || this.getX()==20 || this.getX()==10) {
-			this.setDX(1);
-		}
-		
-	}
-	
-	
-
 }
 

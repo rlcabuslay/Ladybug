@@ -105,6 +105,37 @@ public class GameTimer extends AnimationTimer{
 		this.gc.setFill(Color.BLACK);
 		this.gc.fillRect(0, 0, GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
 		this.gc.drawImage(GameStage.top, 0, 0);
+		
+		//Time
+		int time = (int)((currentSec - startSec));
+		System.out.println(time);
+		
+		//Background Square
+		if(time%184 < 92) this.gc.setFill(Color.WHITE);
+		else this.gc.setFill(Color.RED);
+		this.gc.fillRect(0, 64, GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT-(64*3));
+		
+		//Timer Bar
+		if(time%184 < 92) this.gc.setFill(Color.RED);
+		else this.gc.setFill(Color.WHITE);
+		
+		if(time%92 < 12)
+			this.gc.fillRect(GameStage.WINDOW_WIDTH/2, 64, (time%92)*32, 28);
+		else if(time%92 < 34)
+			this.gc.fillRect(GameStage.WINDOW_WIDTH/2, 64, 12*32, 28+((time%92)-12)*32);
+		else
+			this.gc.fillRect(GameStage.WINDOW_WIDTH/2, 64, 12*32, 28+(34-12)*32);
+		
+		if(time%92 < 58)
+			this.gc.fillRect(GameStage.WINDOW_WIDTH-(((time%92)-34)*32), GameStage.WINDOW_WIDTH+32, 24*32, 28);
+		else
+			this.gc.fillRect(0, GameStage.WINDOW_WIDTH+32, 24*32, 28);
+		
+		if(time%92 > 58 && time%92 < 81)
+			this.gc.fillRect(0, GameStage.WINDOW_WIDTH+4-(((time%92)-59)*32), 28, 28+(((time%92)-59)*32));
+		else if(time%92 > 58 && time%92 != 0)
+			this.gc.fillRect(0, 64, 28+(((time%92)-81)*32), 28+(34-12)*32);
+		
 		this.gc.drawImage(GameStage.bg, 0, 64);
 		this.gc.drawImage(Ladybug.LADYBUG_IMAGE, 28, 824);
 		this.gc.drawImage(Ladybug.LADYBUG_IMAGE, 28+64, 824);

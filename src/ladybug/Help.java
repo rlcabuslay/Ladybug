@@ -1,4 +1,4 @@
-package application;
+package ladybug;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,18 +22,19 @@ public class Help {
 	
 	private Scene scene;
 	
-	public void switchScene(Stage primaryStage, MainMenu menu) {
+	public void switchScene(Stage primaryStage, SplashStage menu) {
 		Stage window = primaryStage;
 //		Creating the text for the content of Help
 		Text helpContent = new Text(Help.HELP_CONTENT);
 		helpContent.setTextAlignment(TextAlignment.JUSTIFY);
-		helpContent.setWrappingWidth(400);
+		helpContent.setWrappingWidth(800);
+		helpContent.setStyle("-fx-font-size: 30px");
 		
 //		Creating the scrollpane for the text
 		ScrollPane sp = new ScrollPane();
-		sp.setPrefSize(300, 300);
-		sp.setMaxSize(450, 450);
-		sp.setPadding(new Insets(10,10,10,10));
+		sp.setPrefSize(900, 900);
+		sp.setMaxSize(900, 900);
+		sp.setPadding(new Insets(40,40,40,40));
 		
 //		Adding the text to the scrollpane
 		sp.setContent(helpContent);
@@ -54,8 +55,8 @@ public class Help {
         box.setId("pane");
 //      Creating the help scene
         
-		this.scene = new Scene(box,MainMenu.WINDOW_WIDTH,MainMenu.WINDOW_HEIGHT);
-		this.scene.getStylesheets().addAll(this.getClass().getResource("application.css").toExternalForm());
+		this.scene = new Scene(box,SplashStage.WINDOW_WIDTH,SplashStage.WINDOW_HEIGHT);
+		this.scene.getStylesheets().addAll(this.getClass().getResource("ladybug.css").toExternalForm());
 		
 		window.setScene(this.scene);
 	}

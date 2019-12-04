@@ -97,6 +97,11 @@ public class GameTimer extends AnimationTimer{
 
 	@Override
 	public void handle(long currentNanoTime) {
+		//for game timer // to be merged
+		long interval = 9;
+		long currentSec2 = TimeUnit.NANOSECONDS.toSeconds(currentNanoTime*interval);
+		long startSec2 = TimeUnit.NANOSECONDS.toSeconds(this.startSpawn*interval);
+		//for insect timer // to be merged
 		long currentSec = TimeUnit.NANOSECONDS.toSeconds(currentNanoTime);
 		long startSec = TimeUnit.NANOSECONDS.toSeconds(this.startSpawn);
 		this.gc.clearRect(0, 0, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
@@ -107,8 +112,7 @@ public class GameTimer extends AnimationTimer{
 		this.gc.drawImage(GameStage.top, 0, 0);
 		
 		//Time
-		int time = (int)((currentSec - startSec));
-		System.out.println(time);
+		int time = (int)((currentSec2 - startSec2));
 		
 		//Background Square
 		if(time%184 < 92) this.gc.setFill(Color.WHITE);
@@ -140,6 +144,16 @@ public class GameTimer extends AnimationTimer{
 		this.gc.drawImage(Ladybug.LADYBUG_IMAGE, 28, 824);
 		this.gc.drawImage(Ladybug.LADYBUG_IMAGE, 28+64, 824);
 		this.gc.drawImage(Ladybug.LADYBUG_IMAGE, 28, 92);
+		
+		//===FONT PROPOSAL===
+//		Font font = Font.loadFont(ClassLoader.getSystemResource("fonts/PressStart2P-Regular.ttf").toExternalForm(),  32); 
+//		this.gc.setFont(font);
+//		this.gc.setFill(Color.RED);	
+//		this.gc.fillText("SPECIAL", 0, 64);
+//		this.gc.setFill(Color.YELLOW);
+//		this.gc.fillText("EXTRA", 252, 64);
+//		this.gc.setFill(Color.BLUE);
+//		this.gc.fillText("x2x3x5", 508, 64);
 		
 		this.ladybug.move();
 

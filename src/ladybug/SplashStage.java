@@ -59,7 +59,7 @@ public class SplashStage {
 //		Setting the id name for styling
 		menuBox.setId("pane");
 		this.scene =  new Scene(menuBox,SplashStage.WINDOW_WIDTH,SplashStage.WINDOW_HEIGHT);
-		this.scene.getStylesheets().addAll(this.getClass().getResource("ladybug.css").toExternalForm());
+		this.scene.getStylesheets().addAll(this.getClass().getResource("application.css").toExternalForm());
 		this.window.setScene(this.scene);
 		this.window.setTitle("LadyBug Arcade Game");
 		this.window.show();

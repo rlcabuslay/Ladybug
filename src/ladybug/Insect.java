@@ -67,9 +67,52 @@ public class Insect extends Sprite{
 //			else if(rand==1) this.setDX(-1);
 //			else if(rand==2) this.setDY(1);
 //			else if(rand==3) this.setDY(-1);
-			this.setDY(-1);
-			this.x += this.dx;
-	    	this.y += this.dy;
+//			this.setDY(-1);
+//			this.x += this.dx;
+//	    	this.y += this.dy;
+			
+			if(this.turn==false) this.setDY(-1);
+			
+			int tempX = this.x + this.dx;
+			int tempY = this.y + this.dy;
+
+			if(tempX + 8 > 28 && tempX < GameStage.WINDOW_WIDTH - (28+60)) {
+				this.x = tempX;
+			}
+			else {
+				this.turn=true;
+				Random r = new Random();
+				int rand=r.nextInt(3);
+				if(rand==0) {
+					this.setDY(1);
+					this.setDX(0);
+				}
+				else if(rand==1) {
+					this.setDY(-1);
+					this.setDX(0);
+				}
+				else if(rand==2) this.setDX(this.getDX()*-1);
+				
+			}
+				
+			if(tempY + 8 > 28 + 64 && tempY < GameStage.WINDOW_HEIGHT - (28+64+64+60)) {
+				this.y = tempY;
+			}
+			else {
+				this.turn=true;
+				Random r = new Random();
+				int rand=r.nextInt(3);
+				if(rand==0) {
+					this.setDX(1);
+					this.setDY(0);
+				}
+				else if(rand==1) {
+					this.setDX(-1);
+					this.setDY(0);
+				}
+				else if(rand==2) this.setDY(this.getDY()*-1);
+				
+			}
 		}
     	
 	}

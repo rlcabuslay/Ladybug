@@ -187,8 +187,6 @@ public class GameTimer extends AnimationTimer{
 //		this.gc.fillText("x2x3x5", 508, 64);
 		
 		this.ladybug.move();
-
-		this.ladybug.render(this.gc);
 		
 		if(this.ladybug.isAlive()==false) {
 			System.out.println("Game over!");
@@ -197,8 +195,14 @@ public class GameTimer extends AnimationTimer{
 		
 		for(int i=0; i<this.insects.size(); i++) {
 			this.insects.get(i).move();
-			if(this.insects.get(i).collidesWith(this.ladybug)) {
+			if(this.insects.get(i).collidesWith(this.ladybug)&&this.insects.get(i).getReleased()==true) {
 				this.ladybug.die();
+				if(GameTimer.vegetablePresent==true) {
+					this.vegetable.remove(0);
+					GameTimer.vegetablePresent=false;
+				}
+				this.startSpawn = System.nanoTime();
+				GameTimer.insectTime=1;
 				for(Insect insect:this.insects) {
 					insect.die();
 				}
@@ -217,7 +221,7 @@ public class GameTimer extends AnimationTimer{
 		
 		
 		if((currentSec - startSec) == GameTimer.timeSped*GameTimer.insectTime) {
-			if(this.insects.get(0).getReleased()==false) {
+			if(this.insects.get(0).getReleased()==false&&this.disabled==false) {
 				this.insects.get(0).setReleased();
 				GameTimer.insectTime++;
 			}
@@ -225,23 +229,17 @@ public class GameTimer extends AnimationTimer{
 				this.insects.get(1).setReleased();
 				GameTimer.insectTime++;
 			}
-			else if(this.insects.get(2).getReleased()==false&&(this.insects.get(1).getReleased()==true||this.insects.get(0).getReleased()==true)) {
+			else if(this.insects.get(2).getReleased()==false&&(this.insects.get(1).getReleased()==true)) {
 				this.insects.get(2).setReleased();
 				GameTimer.insectTime++;
 			}
-			else if(this.insects.get(3).getReleased()==false&&(this.insects.get(2).getReleased()==true||this.insects.get(1).getReleased()==true||this.insects.get(0).getReleased()==true)) {
+			else if(this.insects.get(3).getReleased()==false&&(this.insects.get(2).getReleased()==true)) {
 				this.insects.get(3).setReleased();
 				GameTimer.insectTime++;
 				this.vegetable.add(new Collectible("Vegetable",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
 				GameTimer.vegetablePresent=true;
 			}
 		}
-		
-		
-		for(Insect insect:this.insects) {
-			insect.render(this.gc);
-		}
-		
 		
 		for (int i=0; i<this.flowers.size(); i++) {
 			if(this.flowers.get(i).collidesWith(this.ladybug)) {
@@ -305,6 +303,12 @@ public class GameTimer extends AnimationTimer{
 				for(Insect insect:this.insects) {
 					insect.die();
 				}
+				if(GameTimer.vegetablePresent==true) {
+					this.vegetable.remove(0);
+					GameTimer.vegetablePresent=false;
+				}
+				this.startSpawn = System.nanoTime();
+				GameTimer.insectTime=1;
 			}
 		}
 		
@@ -318,6 +322,7 @@ public class GameTimer extends AnimationTimer{
 			if(this.vegetable.get(i).collidesWith(this.ladybug)) {
 				this.vegetable.get(i).collide();
 				this.vegetable.remove(i);
+				GameTimer.vegetablePresent=false;
 				this.disabled=true;
 				frozenSec = currentSec+4;
 				for(Insect insect:this.insects) {
@@ -353,6 +358,11 @@ public class GameTimer extends AnimationTimer{
 			letter.render(this.gc);
 		}
 		
+		this.ladybug.render(this.gc);
+		
+		for(Insect insect:this.insects) {
+			insect.render(this.gc);
+		}
 		
 		if(GameTimer.extra.size()==5) {
 			changeLevel();
@@ -390,14 +400,15 @@ public class GameTimer extends AnimationTimer{
 		}
 		
 		if(this.flowers.size()==0&&this.hearts.size()==0&&this.letters.size()==0) {
-			PauseTransition pause = new PauseTransition(Duration.seconds(0.15));
-			pause.setOnFinished(new EventHandler<ActionEvent>() {
+// 			PauseTransition pause = new PauseTransition(Duration.seconds(0.15));
+// 			pause.setOnFinished(new EventHandler<ActionEvent>() {
 						
-				public void handle(ActionEvent arg0) {
-					changeLevel();
-				}
-			});
-			pause.play();
+// 				public void handle(ActionEvent arg0) {
+// 					changeLevel();
+// 				}
+// 			});
+// 			pause.play();
+			changeLevel();
 			GameTimer.currentLevel++;
 			GameTimer.multiplier=1;
 			GameTimer.insectTime=1;

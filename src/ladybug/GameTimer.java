@@ -29,6 +29,7 @@ public class GameTimer extends AnimationTimer{
 	private long startSpawn;
 	private long frozenSec;
 	private boolean disabled;
+        private int[][] gameBoard;
 	
 	public static int multiplier=1;
 	public static int score=0;
@@ -66,26 +67,55 @@ public class GameTimer extends AnimationTimer{
 		this.letters = new ArrayList<Collectible>();
 		this.vegetable = new ArrayList<Collectible>();
 		
-		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
-		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
-		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
-		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-70));
+		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-70));
+		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-70));
+		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-70));
 		
-		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2));
-		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+30));
-		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+60));
-		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+90));
+		this.gameBoard = new int[11][11];
+		initGameBoard();
 		
-		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2));
-		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+50));
-		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+100));
+		for(int i=0; i<11; i++) {
+			for(int j=0; j<11; j++) {
+				if(this.gameBoard[i][j]==0){
+					this.flowers.add(new Collectible("Flower", 38+(65*i), 100+(65*j)));
+				}
+				else if(this.gameBoard[i][j]==1||this.gameBoard[i][j]==2||this.gameBoard[i][j]==3) {
+					this.hearts.add(new Collectible("RedHeart", 38+(65*i),100+(65*j)));
+				}
+				else if(this.gameBoard[i][j]==4) {
+					this.letters.add(new Collectible("XTR", 38+(65*i),100+(65*j)));
+				}
+				else if(this.gameBoard[i][j]==5) {
+					this.letters.add(new Collectible("SPCIL", 38+(65*i),100+(65*j)));
+				}
+				else if(this.gameBoard[i][j]==6) {
+					this.letters.add(new Collectible("AE", 38+(65*i),100+(65*j)));
+				}
+				else if(this.gameBoard[i][j]==7) {
+					this.skulls.add(new Collectible("Skull", 38+(65*i),100+(65*j)));
+				}
+				else if(this.gameBoard[i][j]==8) {
+					this.skulls.add(new Collectible("Skull", 38+(65*i),100+(65*j)));
+				}
+			}
+		}
 		
-		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-120));
-		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-170));
+//		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2));
+//		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+30));
+//		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+60));
+//		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+90));
 		
-		this.letters.add(new Collectible("XTR", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2));
-		this.letters.add(new Collectible("SPCIL", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+50));
-		this.letters.add(new Collectible("AE", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+100));
+//		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2));
+//		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+50));
+//		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+100));
+//		
+//		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-120));
+//		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-170));
+//		
+//		this.letters.add(new Collectible("XTR", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2));
+//		this.letters.add(new Collectible("SPCIL", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+50));
+//		this.letters.add(new Collectible("AE", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+100));
 		
 		this.startSpawn = System.nanoTime();
 		this.frozenSec=0;
@@ -93,6 +123,7 @@ public class GameTimer extends AnimationTimer{
 		this.disabled=false;
 		
 		this.handleKeyPressEvent();
+		
 	}
 
 	@Override
@@ -386,26 +417,55 @@ public class GameTimer extends AnimationTimer{
 		this.letters = new ArrayList<Collectible>();
 		this.vegetable = new ArrayList<Collectible>();
 		
-		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
-		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
-		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
-		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-70));
+		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-70));
+		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-70));
+		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-70));
 		
-		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2));
-		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+30));
-		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+60));
-		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+90));
+		this.gameBoard = new int[11][11];
+		initGameBoard();
 		
-		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2));
-		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+50));
-		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+100));
+		for(int i=0; i<11; i++) {
+			for(int j=0; j<11; j++) {
+				if(this.gameBoard[i][j]==0){
+					this.flowers.add(new Collectible("Flower", 38+(65*i), 100+(65*j)));
+				}
+				else if(this.gameBoard[i][j]==1||this.gameBoard[i][j]==2||this.gameBoard[i][j]==3) {
+					this.hearts.add(new Collectible("RedHeart", 38+(65*i),100+(65*j)));
+				}
+				else if(this.gameBoard[i][j]==4) {
+					this.letters.add(new Collectible("XTR", 38+(65*i),100+(65*j)));
+				}
+				else if(this.gameBoard[i][j]==5) {
+					this.letters.add(new Collectible("SPCIL", 38+(65*i),100+(65*j)));
+				}
+				else if(this.gameBoard[i][j]==6) {
+					this.letters.add(new Collectible("AE", 38+(65*i),100+(65*j)));
+				}
+				else if(this.gameBoard[i][j]==7) {
+					this.skulls.add(new Collectible("Skull", 38+(65*i),100+(65*j)));
+				}
+				else if(this.gameBoard[i][j]==8) {
+					this.skulls.add(new Collectible("Skull", 38+(65*i),100+(65*j)));
+				}
+			}
+		}
 		
-		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-120));
-		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-170));
+//		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2));
+//		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+30));
+//		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+60));
+//		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+90));
 		
-		this.letters.add(new Collectible("XTR", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2));
-		this.letters.add(new Collectible("SPCIL", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+50));
-		this.letters.add(new Collectible("AE", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+100));
+//		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2));
+//		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+50));
+//		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+100));
+//		
+//		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-120));
+//		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-170));
+//		
+//		this.letters.add(new Collectible("XTR", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2));
+//		this.letters.add(new Collectible("SPCIL", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+50));
+//		this.letters.add(new Collectible("AE", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+100));
 		
 		this.startSpawn = System.nanoTime();
 		this.frozenSec=0;
@@ -413,6 +473,41 @@ public class GameTimer extends AnimationTimer{
 		this.disabled=false;
 		
 		this.handleKeyPressEvent();
+	}
+	
+	private void initGameBoard(){
+		for(int i=0; i<11; i++) {
+			for(int j=0; j<11; j++) {
+				this.gameBoard[i][j]=0;
+			}
+		}
+		Random r = new Random();
+		int randRow;
+		int randCol;
+		int counter=1;
+		
+		for(int i=0;i<9;i++) {
+			//randomizes two row and column coordinates
+			randRow=r.nextInt(11);
+			randCol=r.nextInt(11);
+			//checks if the coordinate is already taken
+			while((this.gameBoard[randRow][randCol]!=0)||(randRow==8&&randCol==5)||(randRow==9&&randCol==5)||(randRow==10&&randCol==5)||(randRow==5&&randCol==5)) {
+				randRow=r.nextInt(11);
+				randCol=r.nextInt(11);
+			}
+			//assigns a pair of numbers to the coordinates 
+			this.gameBoard[randRow][randCol]=counter;
+			//updates number
+			counter++;
+		}
+		this.gameBoard[5][5]=-1;
+		this.gameBoard[5][8]=-1;
+		this.gameBoard[5][9]=-1;
+		this.gameBoard[5][10]=-1;
+		
+		for(int i=0;i<11;i++){
+			System.out.println(Arrays.toString(this.gameBoard[i]));//print final board content	
+		}
 	}
 	
 	private void setGameOver(int num){

@@ -5,6 +5,7 @@ import java.util.Random;
 
 
 public class Insect extends Sprite{
+	private boolean turn;
 	private String name;
 	private boolean released;
 	
@@ -35,6 +36,7 @@ public class Insect extends Sprite{
 		else this.loadImage(Insect.INSECT_IMAGE1);
 		
 		this.released=false;
+		this.turn=false;
 	}
 	
 	public String getName(){
@@ -74,7 +76,7 @@ public class Insect extends Sprite{
 //			this.x += this.dx;
 //	    	this.y += this.dy;
 			
-			if(this.turn==false) this.setDY(-1);
+			if(this.turn==false) this.setDY(-1*(GameTimer.currentLevel+1));
 			
 			int tempX = this.x + this.dx;
 			int tempY = this.y + this.dy;
@@ -87,11 +89,11 @@ public class Insect extends Sprite{
 				Random r = new Random();
 				int rand=r.nextInt(3);
 				if(rand==0) {
-					this.setDY(1);
+					this.setDY(1*(GameTimer.currentLevel+1));
 					this.setDX(0);
 				}
 				else if(rand==1) {
-					this.setDY(-1);
+					this.setDY(-1*(GameTimer.currentLevel+1));
 					this.setDX(0);
 				}
 				else if(rand==2) this.setDX(this.getDX()*-1);
@@ -106,11 +108,11 @@ public class Insect extends Sprite{
 				Random r = new Random();
 				int rand=r.nextInt(3);
 				if(rand==0) {
-					this.setDX(1);
+					this.setDX(1*(GameTimer.currentLevel+1));
 					this.setDY(0);
 				}
 				else if(rand==1) {
-					this.setDX(-1);
+					this.setDX(-1*(GameTimer.currentLevel+1));
 					this.setDY(0);
 				}
 				else if(rand==2) this.setDY(this.getDY()*-1);

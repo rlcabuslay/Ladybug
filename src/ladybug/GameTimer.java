@@ -209,7 +209,6 @@ public class GameTimer extends AnimationTimer{
 			for(int i=0; i<this.insects.size(); i++) {
 				this.insects.get(i).move();
 				if(this.insects.get(i).collidesWith(this.ladybug)&&this.insects.get(i).getReleased()==true) {
-					this.ladybug.die();
 					if(GameTimer.vegetablePresent==true) {
 						this.vegetable.remove(0);
 						GameTimer.vegetablePresent=false;

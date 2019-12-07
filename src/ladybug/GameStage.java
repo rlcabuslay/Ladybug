@@ -36,7 +36,7 @@ public class GameStage {
 	public final static int WINDOW_WIDTH = 760; //190 pixels
 	public final static int WINDOW_HEIGHT = 952; //238 pixels
 	
-	public final static boolean IS_GAME_DONE = false;
+	public static boolean IS_GAME_DONE = false;
 	
 	public final static Image bg = new Image("images/LadyBugMaze.png", MAP_WIDTH, MAP_HEIGHT,false,false);
 	public final static Image top = new Image("images/Sprites/Arcade - Lady Bug - Maze (5).png",MAP_WIDTH,64,false,false);

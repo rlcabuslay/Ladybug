@@ -7,24 +7,25 @@ public class Ladybug extends Sprite{
 	private String name;
 	private boolean alive;
 	
-	public final static Image LADYBUG_IMAGE_UP = new Image("images/Sprites/Characters/LadyBug/LadyBugU.gif",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
-	public final static Image LADYBUG_IMAGE_DOWN = new Image("images/Sprites/Characters/LadyBug/LadyBugD.gif",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
-	public final static Image LADYBUG_IMAGE_LEFT = new Image("images/Sprites/Characters/LadyBug/LadyBugL.gif",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
-	public final static Image LADYBUG_IMAGE_RIGHT = new Image("images/Sprites/Characters/LadyBug/LadyBugR.gif",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
+	public final static Image LADYBUG_IMAGE_UP = new Image("images/Sprites/Characters/LadyBug/LadyBugU.gif", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image LADYBUG_IMAGE_DOWN = new Image("images/Sprites/Characters/LadyBug/LadyBugD.gif", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image LADYBUG_IMAGE_LEFT = new Image("images/Sprites/Characters/LadyBug/LadyBugL.gif", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image LADYBUG_IMAGE_RIGHT = new Image("images/Sprites/Characters/LadyBug/LadyBugR.gif", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
 	
-	public final static Image LADYBUG_IMAGE2 = new Image("images/Sprites/Characters/LadyBug/LadyBug7.png",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
-	public final static Image LADYBUG_IMAGE3 = new Image("images/Sprites/Characters/LadyBug/LadyBug8.png",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
-	public final static Image LADYBUG_IMAGE4 = new Image("images/Sprites/Characters/LadyBug/LadyBug9.png",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
-	public final static Image LADYBUG_IMAGE5 = new Image("images/Sprites/Characters/LadyBug/LadyBug10.png",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
-	public final static Image LADYBUG_IMAGE6 = new Image("images/Sprites/Characters/LadyBug/LadyBug11.png",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
-	public final static Image LADYBUG_IMAGE7 = new Image("images/Sprites/Characters/LadyBug/LadyBug12.png",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
-	public final static Image LADYBUG_IMAGE8 = new Image("images/Sprites/Characters/LadyBug/LadyBug13.png",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
-	public final static Image LADYBUG_IMAGE9 = new Image("images/Sprites/Characters/LadyBug/LadyBug14.png",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
-	public final static Image LADYBUG_IMAGE10 = new Image("images/Sprites/Characters/LadyBug/LadyBug15.png",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
-	public final static Image LADYBUG_IMAGE11 = new Image("images/Sprites/Characters/LadyBug/LadyBug16.png",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
-	public final static Image LADYBUG_IMAGE12 = new Image("images/Sprites/Characters/LadyBug/LadyBug17.png",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
-	public final static Image LADYBUG_IMAGE13 = new Image("images/Sprites/Characters/LadyBug/LadyBug18.png",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
-	public final static Image LADYBUG_IMAGE14 = new Image("images/Sprites/Characters/LadyBug/LadyBug19.png",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
+	public final static Image LADYBUG_IMAGE2 = new Image("images/Sprites/Characters/LadyBug/LadyBug7.png", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image LADYBUG_IMAGE3 = new Image("images/Sprites/Characters/LadyBug/LadyBug8.png", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image LADYBUG_IMAGE4 = new Image("images/Sprites/Characters/LadyBug/LadyBug9.png", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image LADYBUG_IMAGE5 = new Image("images/Sprites/Characters/LadyBug/LadyBug10.png", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image LADYBUG_IMAGE6 = new Image("images/Sprites/Characters/LadyBug/LadyBug11.png", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image LADYBUG_IMAGE7 = new Image("images/Sprites/Characters/LadyBug/LadyBug12.png", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image LADYBUG_IMAGE8 = new Image("images/Sprites/Characters/LadyBug/LadyBug13.png", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image LADYBUG_IMAGE9 = new Image("images/Sprites/Characters/LadyBug/LadyBug14.png", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image LADYBUG_IMAGE10 = new Image("images/Sprites/Characters/LadyBug/LadyBug15.png", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image LADYBUG_IMAGE11 = new Image("images/Sprites/Characters/LadyBug/LadyBug16.png", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image LADYBUG_IMAGE12 = new Image("images/Sprites/Characters/LadyBug/LadyBug17.png", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image LADYBUG_IMAGE13 = new Image("images/Sprites/Characters/LadyBug/LadyBug18.png", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image LADYBUG_IMAGE14 = new Image("images/Sprites/Characters/LadyBug/LadyBug19.png", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+
 	
 	private final static int LADYBUG_WIDTH = 56;
 

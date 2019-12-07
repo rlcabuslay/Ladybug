@@ -7,7 +7,11 @@ public class Ladybug extends Sprite{
 	private String name;
 	private boolean alive;
 	
-	public final static Image LADYBUG_IMAGE = new Image("images/Sprites/Characters/LadyBug/LadyBugR.gif",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
+	public final static Image LADYBUG_IMAGE_UP = new Image("images/Sprites/Characters/LadyBug/LadyBugU.gif",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
+	public final static Image LADYBUG_IMAGE_DOWN = new Image("images/Sprites/Characters/LadyBug/LadyBugD.gif",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
+	public final static Image LADYBUG_IMAGE_LEFT = new Image("images/Sprites/Characters/LadyBug/LadyBugL.gif",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
+	public final static Image LADYBUG_IMAGE_RIGHT = new Image("images/Sprites/Characters/LadyBug/LadyBugR.gif",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
+	
 	public final static Image LADYBUG_IMAGE2 = new Image("images/Sprites/Characters/LadyBug/LadyBug7.png",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
 	public final static Image LADYBUG_IMAGE3 = new Image("images/Sprites/Characters/LadyBug/LadyBug8.png",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
 	public final static Image LADYBUG_IMAGE4 = new Image("images/Sprites/Characters/LadyBug/LadyBug9.png",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
@@ -105,10 +109,10 @@ public class Ladybug extends Sprite{
 		int tempX = this.x + this.dx;
 		int tempY = this.y + this.dy;
 
-		if(tempX + 8 > 28 && tempX < GameStage.WINDOW_WIDTH - (28+60))
+		if(tempX > GameStage.GAME_BOUND_LEFT && tempX < GameStage.GAME_BOUND_RIGHT)
 			this.x = tempX;
-		if(tempY + 8 > 28 + 64 && tempY < GameStage.WINDOW_HEIGHT - (28+64+64+60))
-			this.y = tempY;    
+		if(tempY > GameStage.GAME_BOUND_UP && tempY < GameStage.GAME_BOUND_DOWN)
+			this.y = tempY;   
 	}
 }
 

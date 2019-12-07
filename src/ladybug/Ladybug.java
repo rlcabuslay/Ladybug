@@ -26,7 +26,7 @@ public class Ladybug extends Sprite{
 	public final static Image LADYBUG_IMAGE13 = new Image("images/Sprites/Characters/LadyBug/LadyBug18.png",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
 	public final static Image LADYBUG_IMAGE14 = new Image("images/Sprites/Characters/LadyBug/LadyBug19.png",Ladybug.LADYBUG_WIDTH,Ladybug.LADYBUG_WIDTH,false,false);
 	
-	private final static int LADYBUG_WIDTH = 64;
+	private final static int LADYBUG_WIDTH = 56;
 
 	public Ladybug(String name, int x, int y){
 		super(x,y);

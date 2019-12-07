@@ -34,6 +34,7 @@ public class GameTimer extends AnimationTimer{
 	private long frozenMilli;
 	private boolean disabled;
 	private int[][] gameBoard;
+	private static boolean allInsectReleased=false;
 	
 	public static int multiplier=1;
 	public static int score=0;
@@ -222,24 +223,40 @@ public class GameTimer extends AnimationTimer{
 			}
 			
 			
-			if((currentSec - startSec) == GameTimer.timeSped*GameTimer.insectTime) {
+			if((currentSec - startSec)%(GameTimer.timeSped*GameTimer.insectTime) == 0 && (currentSec - startSec)!=0) {
 				if(this.insects.get(0).getReleased()==false&&this.disabled==false) {
 					this.insects.get(0).setReleased();
-					GameTimer.insectTime++;
+					if(GameTimer.allInsectReleased==false) GameTimer.insectTime++;
+					else if(GameTimer.allInsectReleased==true&&GameTimer.vegetablePresent==false) {
+						this.vegetable.add(new Collectible("Vegetable",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+						GameTimer.vegetablePresent=true;
+					}
 				}
 				else if(this.insects.get(1).getReleased()==false&&this.insects.get(0).getReleased()==true) {
 					this.insects.get(1).setReleased();
-					GameTimer.insectTime++;
+					if(GameTimer.allInsectReleased==false) GameTimer.insectTime++;
+					else if(GameTimer.allInsectReleased==true&&GameTimer.vegetablePresent==false) {
+						this.vegetable.add(new Collectible("Vegetable",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+						GameTimer.vegetablePresent=true;
+					}
 				}
 				else if(this.insects.get(2).getReleased()==false&&(this.insects.get(1).getReleased()==true)) {
 					this.insects.get(2).setReleased();
-					GameTimer.insectTime++;
+					if(GameTimer.allInsectReleased==false) GameTimer.insectTime++;
+					else if(GameTimer.allInsectReleased==true&&GameTimer.vegetablePresent==false) {
+						this.vegetable.add(new Collectible("Vegetable",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+						GameTimer.vegetablePresent=true;
+					}
 				}
 				else if(this.insects.get(3).getReleased()==false&&(this.insects.get(2).getReleased()==true)) {
 					this.insects.get(3).setReleased();
-					GameTimer.insectTime++;
-					this.vegetable.add(new Collectible("Vegetable",  GameStage.locateXGrid(6), GameStage.locateYGrid(6)));
-					GameTimer.vegetablePresent=true;
+					GameTimer.insectTime=1;
+					GameTimer.allInsectReleased=true;
+					if(GameTimer.vegetablePresent==false) {
+						this.vegetable.add(new Collectible("Vegetable",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+						GameTimer.vegetablePresent=true;
+					}
+					
 				}
 			}
 			

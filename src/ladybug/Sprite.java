@@ -6,6 +6,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Sprite {
+	public static final int SPRITE_SIZE = 14 * GameStage.PIXEL_SIZE;
+	
 	protected Image img;
 	protected ImageView imgview; //try to rotate
 	protected int x, y, dx, dy;
@@ -79,6 +81,10 @@ public class Sprite {
 	}
 	
 	//setters
+	public void setImage(Image img){
+		this.img = img;
+	}
+	
 	public void setX(int x){
 		this.x = x;
 	}

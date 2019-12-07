@@ -140,6 +140,13 @@ public class GameStage {
 		pause.play();
 	}
 	
+	public static int locateXGrid(int locX) {
+		return GameStage.GAME_BOUND_WALL + (locX-1)*GameStage.CELL_SIZE + GameStage.PIXEL_SIZE;
+	}
+	
+	public static int locateYGrid(int locY) {
+		return GameStage.GAME_BOUND_WALL + locY*GameStage.CELL_SIZE + GameStage.PIXEL_SIZE;
+	}
 	//======================EVENT HANDLERS===================================
 	
 	

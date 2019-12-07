@@ -9,15 +9,14 @@ public class Insect extends Sprite{
 	private String name;
 	private boolean released;
 	
-	public final static Image INSECT_IMAGE1 = new Image("images/Sprites/Characters/Insects/Insect1c.png",Insect.INSECT_WIDTH,Insect.INSECT_WIDTH,false,false);
-	public final static Image INSECT_IMAGE2 = new Image("images/Sprites/Characters/Insects/Insect2c.png",Insect.INSECT_WIDTH,Insect.INSECT_WIDTH,false,false);
-	public final static Image INSECT_IMAGE3 = new Image("images/Sprites/Characters/Insects/Insect3c.png",Insect.INSECT_WIDTH,Insect.INSECT_WIDTH,false,false);
-	public final static Image INSECT_IMAGE4 = new Image("images/Sprites/Characters/Insects/Insect4c.png",Insect.INSECT_WIDTH,Insect.INSECT_WIDTH,false,false);
-	public final static Image INSECT_IMAGE5 = new Image("images/Sprites/Characters/Insects/Insect5c.png",Insect.INSECT_WIDTH,Insect.INSECT_WIDTH,false,false);
-	public final static Image INSECT_IMAGE6 = new Image("images/Sprites/Characters/Insects/Insect6c.png",Insect.INSECT_WIDTH,Insect.INSECT_WIDTH,false,false);
-	public final static Image INSECT_IMAGE7 = new Image("images/Sprites/Characters/Insects/Insect7c.png",Insect.INSECT_WIDTH,Insect.INSECT_WIDTH,false,false);
-	public final static Image INSECT_IMAGE8 = new Image("images/Sprites/Characters/Insects/Insect8c.png",Insect.INSECT_WIDTH,Insect.INSECT_WIDTH,false,false);
-	private final static int INSECT_WIDTH = 64;
+	public final static Image INSECT_IMAGE1 = new Image("images/Sprites/Characters/Insects/Insect1c.png", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image INSECT_IMAGE2 = new Image("images/Sprites/Characters/Insects/Insect2c.png", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image INSECT_IMAGE3 = new Image("images/Sprites/Characters/Insects/Insect3c.png", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image INSECT_IMAGE4 = new Image("images/Sprites/Characters/Insects/Insect4c.png", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image INSECT_IMAGE5 = new Image("images/Sprites/Characters/Insects/Insect5c.png", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image INSECT_IMAGE6 = new Image("images/Sprites/Characters/Insects/Insect6c.png", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image INSECT_IMAGE7 = new Image("images/Sprites/Characters/Insects/Insect7c.png", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
+	public final static Image INSECT_IMAGE8 = new Image("images/Sprites/Characters/Insects/Insect8c.png", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
 
 	public Insect(String name, int x, int y){
 		super(x,y);
@@ -81,7 +80,7 @@ public class Insect extends Sprite{
 			int tempX = this.x + this.dx;
 			int tempY = this.y + this.dy;
 
-			if(tempX + 8 > 28 && tempX < GameStage.WINDOW_WIDTH - (28+60)) {
+			if(tempX > GameStage.GAME_BOUND_LEFT && tempX < GameStage.GAME_BOUND_RIGHT) {
 				this.x = tempX;
 			}
 			else {
@@ -100,7 +99,7 @@ public class Insect extends Sprite{
 				
 			}
 				
-			if(tempY + 8 > 28 + 64 && tempY < GameStage.WINDOW_HEIGHT - (28+64+64+60)) {
+			if(tempY > GameStage.GAME_BOUND_UP && tempY < GameStage.GAME_BOUND_DOWN) {
 				this.y = tempY;
 			}
 			else {

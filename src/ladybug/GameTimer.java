@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
@@ -59,13 +60,11 @@ public class GameTimer extends AnimationTimer{
 	public static ArrayList<Character> special = new ArrayList<Character>();
 	private Font font = Font.loadFont(getClass().getResourceAsStream("PressStart2P-Regular.ttf"),  25);
 	
-	
-	
 	GameTimer(GraphicsContext gc, Scene theScene){
 		this.gc = gc;
 		this.theScene = theScene;
 
-		this.ladybug = new Ladybug("Buggy", 348, 604);
+		this.ladybug = new Ladybug("Buggy", GameStage.locateXGrid(6), GameStage.locateYGrid(9));
 		this.insects = new ArrayList<Insect>();
 		this.flowers = new ArrayList<Collectible>();
 		this.hearts = new ArrayList<Collectible>();
@@ -73,10 +72,10 @@ public class GameTimer extends AnimationTimer{
 		this.letters = new ArrayList<Collectible>();
 		this.vegetable = new ArrayList<Collectible>();
 		
-		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-70));
-		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-70));
-		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-70));
-		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-70));
+		this.insects.add(new Insect("Insect", GameStage.locateXGrid(6), GameStage.locateYGrid(6)));
+		this.insects.add(new Insect("Insect", GameStage.locateXGrid(6), GameStage.locateYGrid(6)));
+		this.insects.add(new Insect("Insect", GameStage.locateXGrid(6), GameStage.locateYGrid(6)));
+		this.insects.add(new Insect("Insect", GameStage.locateXGrid(6), GameStage.locateYGrid(6)));
 		
 		this.gameBoard = new int[11][11];
 		initGameBoard();
@@ -84,44 +83,28 @@ public class GameTimer extends AnimationTimer{
 		for(int i=0; i<11; i++) {
 			for(int j=0; j<11; j++) {
 				if(this.gameBoard[i][j]==0){
-					this.flowers.add(new Collectible("Flower", 38+(65*i), 100+(65*j)));
+					this.flowers.add(new Collectible("Flower", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
 				}
 				else if(this.gameBoard[i][j]==1||this.gameBoard[i][j]==2||this.gameBoard[i][j]==3) {
-					this.hearts.add(new Collectible("RedHeart", 38+(65*i),100+(65*j)));
+					this.hearts.add(new Collectible("RedHeart", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
 				}
 				else if(this.gameBoard[i][j]==4) {
-					this.letters.add(new Collectible("XTR", 38+(65*i),100+(65*j)));
+					this.letters.add(new Collectible("XTR", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
 				}
 				else if(this.gameBoard[i][j]==5) {
-					this.letters.add(new Collectible("SPCIL", 38+(65*i),100+(65*j)));
+					this.letters.add(new Collectible("SPCIL", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
 				}
 				else if(this.gameBoard[i][j]==6) {
-					this.letters.add(new Collectible("AE", 38+(65*i),100+(65*j)));
+					this.letters.add(new Collectible("AE", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
 				}
 				else if(this.gameBoard[i][j]==7) {
-					this.skulls.add(new Collectible("Skull", 38+(65*i),100+(65*j)));
+					this.skulls.add(new Collectible("Skull", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
 				}
 				else if(this.gameBoard[i][j]==8) {
-					this.skulls.add(new Collectible("Skull", 38+(65*i),100+(65*j)));
+					this.skulls.add(new Collectible("Skull", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
 				}
 			}
 		}
-		
-// 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2));
-// 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+30));
-// 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+60));
-// 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+90));
-		
-// 		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2));
-// 		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+50));
-// 		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+100));
-		
-// 		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-120));
-// 		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-170));
-		
-// 		this.letters.add(new Collectible("XTR", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2));
-// 		this.letters.add(new Collectible("SPCIL", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+50));
-// 		this.letters.add(new Collectible("AE", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+100));
 		
 		this.startSpawn = System.nanoTime();
 		this.frozenSec=0;
@@ -184,7 +167,7 @@ public class GameTimer extends AnimationTimer{
 			this.gc.drawImage(GameStage.bg, 0, 64);
 			
 			for(int i=0;i<GameTimer.lives-1;i++) {
-				this.gc.drawImage(Ladybug.LADYBUG_IMAGE, 28+(64*i), 824);
+				this.gc.drawImage(Ladybug.LADYBUG_IMAGE_RIGHT, 28+(64*i), 824);
 			}
 			
 	//		this.gc.drawImage(Ladybug.LADYBUG_IMAGE, 28, 92);
@@ -255,7 +238,7 @@ public class GameTimer extends AnimationTimer{
 				else if(this.insects.get(3).getReleased()==false&&(this.insects.get(2).getReleased()==true)) {
 					this.insects.get(3).setReleased();
 					GameTimer.insectTime++;
-					this.vegetable.add(new Collectible("Vegetable",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+					this.vegetable.add(new Collectible("Vegetable",  GameStage.locateXGrid(6), GameStage.locateYGrid(6)));
 					GameTimer.vegetablePresent=true;
 				}
 			}
@@ -431,7 +414,7 @@ public class GameTimer extends AnimationTimer{
 			this.ladybug.render(this.gc);
 		}
 		else if(currentMilli>this.frozenMilli&&this.frozenMilli!=0&&GameTimer.deathTransition==true){
-			this.ladybug.loadImage(Ladybug.LADYBUG_IMAGE);
+			this.ladybug.loadImage(Ladybug.LADYBUG_IMAGE_UP);
 			this.ladybug.die();
 			GameTimer.deathTransition=false;
 		}
@@ -443,7 +426,7 @@ public class GameTimer extends AnimationTimer{
 	}
 	
 	private void changeLevel() {
-		this.ladybug = new Ladybug("Buggy", 348, 604);
+		this.ladybug = new Ladybug("Buggy", GameStage.locateXGrid(6), GameStage.locateYGrid(9));
 		this.insects = new ArrayList<Insect>();
 		this.flowers = new ArrayList<Collectible>();
 		this.hearts = new ArrayList<Collectible>();
@@ -451,10 +434,10 @@ public class GameTimer extends AnimationTimer{
 		this.letters = new ArrayList<Collectible>();
 		this.vegetable = new ArrayList<Collectible>();
 		
-		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-70));
-		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-70));
-		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-70));
-		this.insects.add(new Insect("Insect",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-70));
+		this.insects.add(new Insect("Insect", GameStage.locateXGrid(6), GameStage.locateYGrid(6)));
+		this.insects.add(new Insect("Insect", GameStage.locateXGrid(6), GameStage.locateYGrid(6)));
+		this.insects.add(new Insect("Insect", GameStage.locateXGrid(6), GameStage.locateYGrid(6)));
+		this.insects.add(new Insect("Insect", GameStage.locateXGrid(6), GameStage.locateYGrid(6)));
 		
 		this.gameBoard = new int[11][11];
 		initGameBoard();
@@ -484,22 +467,6 @@ public class GameTimer extends AnimationTimer{
 				}
 			}
 		}
-		
-// 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2));
-// 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+30));
-// 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+60));
-// 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+90));
-		
-// 		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2));
-// 		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+50));
-// 		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+100));
-		
-// 		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-120));
-// 		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-170));
-		
-// 		this.letters.add(new Collectible("XTR", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2));
-// 		this.letters.add(new Collectible("SPCIL", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+50));
-// 		this.letters.add(new Collectible("AE", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+100));
 		
 		this.startSpawn = System.nanoTime();
 		this.frozenSec=0;
@@ -540,6 +507,7 @@ public class GameTimer extends AnimationTimer{
 		this.gameBoard[5][9]=-1;
 		this.gameBoard[5][10]=-1;
 		
+		
 		for(int i=0;i<11;i++){
 			System.out.println(Arrays.toString(this.gameBoard[i]));//print final board content	
 		}
@@ -565,26 +533,32 @@ public class GameTimer extends AnimationTimer{
 		        });
     }
 	
-	//method that will move the ship depending on the key pressed
+	//method that will move the ladybug depending on the key pressed
 	private void moveMyLadybug(KeyCode ke) {
 		{
-			if(ke==KeyCode.UP) this.ladybug.setDY(-10);                 
+			if(ke==KeyCode.UP) {
+				this.ladybug.setDY(-8); 
+				this.ladybug.loadImage(Ladybug.LADYBUG_IMAGE_UP);
+			}
 	
-			if(ke==KeyCode.LEFT) this.ladybug.setDX(-10);
+			if(ke==KeyCode.LEFT) {
+				this.ladybug.setDX(-8);
+				this.ladybug.loadImage(Ladybug.LADYBUG_IMAGE_LEFT);
+			}
 	
-			if(ke==KeyCode.DOWN) this.ladybug.setDY(10);
+			if(ke==KeyCode.DOWN) {
+				this.ladybug.setDY(8);
+				this.ladybug.loadImage(Ladybug.LADYBUG_IMAGE_DOWN);
+			}
 			
-			if(ke==KeyCode.RIGHT) this.ladybug.setDX(10);
-			
-			
-			if(ke==KeyCode.SPACE) {
+			if(ke==KeyCode.RIGHT) {
+				this.ladybug.setDX(8);
+				this.ladybug.loadImage(Ladybug.LADYBUG_IMAGE_RIGHT);
 			}
 		}
-		
-//		System.out.println(ke+" key pressed.");
    	}
 	
-	//method that will stop the ship's movement; set the ship's DX and DY to 0
+	//method that will stop the ladybug's movement by setting DX and DY to 0
 	private void stopMyLadybug(KeyCode ke){
 		this.ladybug.setDX(0);
 		this.ladybug.setDY(0);

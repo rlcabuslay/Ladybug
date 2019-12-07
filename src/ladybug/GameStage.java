@@ -48,9 +48,9 @@ public class GameStage {
 	
 	public static boolean IS_GAME_DONE = false;
 	
-	public final static Image bg = new Image("images/LadyBugMaze.png", MAP_WIDTH, MAP_HEIGHT,false,false);
-	public final static Image top = new Image("images/Sprites/Arcade - Lady Bug - Maze (5).png",MAP_WIDTH,64,false,false);
-	public final static Image gameover = new Image("images/Sprites/GameOver.png", MAP_WIDTH, MAP_HEIGHT,false,false);
+	public final static Image bg = new Image("images/LadyBugMaze.png", GameStage.MAP_WIDTH, GameStage.MAP_HEIGHT, false, false);
+	public final static Image top = new Image("images/Sprites/Arcade - Lady Bug - Maze (5).png", GameStage.MAP_WIDTH, GameStage.CELL_SIZE, false, false);
+	public final static Image gameover = new Image("images/Sprites/GameOver.png", GameStage.MAP_WIDTH, GameStage.MAP_HEIGHT, false, false);;
 	
 	public GameStage() {
 		this.root = new Group();

@@ -57,6 +57,7 @@ public class GameTimer extends AnimationTimer{
 	public static boolean takenEspecial=false;
 	public static ArrayList<Character> extra = new ArrayList<Character>();
 	public static ArrayList<Character> special = new ArrayList<Character>();
+	private Font font = Font.loadFont(getClass().getResourceAsStream("PressStart2P-Regular.ttf"),  25);
 	
 	
 	
@@ -188,15 +189,19 @@ public class GameTimer extends AnimationTimer{
 			
 	//		this.gc.drawImage(Ladybug.LADYBUG_IMAGE, 28, 92);
 			
-			//===FONT PROPOSAL===
-			Font font = Font.loadFont(ClassLoader.getSystemResource("fonts/PressStart2P-Regular.ttf").toExternalForm(),  32); 
 			this.gc.setFont(font);
-			this.gc.setFill(Color.RED);	
-			this.gc.fillText("SPECIAL", 0, 64);
-			this.gc.setFill(Color.YELLOW);
-			this.gc.fillText("EXTRA", 252, 64);
-			this.gc.setFill(Color.BLUE);
-			this.gc.fillText("x2x3x5", 508, 64);
+			String str = Integer.toString(GameTimer.score); 
+			this.gc.fillText("Score: "+str, 300, 900);
+			
+			//===FONT PROPOSAL===
+//			Font font = Font.loadFont(ClassLoader.getSystemResource("fonts/PressStart2P-Regular.ttf").toExternalForm(),  32); 
+//			this.gc.setFont(font);
+//			this.gc.setFill(Color.RED);	
+//			this.gc.fillText("SPECIAL", 0, 64);
+//			this.gc.setFill(Color.YELLOW);
+//			this.gc.fillText("EXTRA", 252, 64);
+//			this.gc.setFill(Color.BLUE);
+//			this.gc.fillText("x2x3x5", 508, 64);
 		
 			
 			this.ladybug.move();
@@ -547,7 +552,7 @@ public class GameTimer extends AnimationTimer{
 		theScene.setOnKeyPressed(new EventHandler<KeyEvent>(){
 			public void handle(KeyEvent e){
             	KeyCode code = e.getCode();
-                moveMyHunter(code);
+                moveMyLadybug(code);
 			}
 			
 		});
@@ -555,13 +560,13 @@ public class GameTimer extends AnimationTimer{
 		theScene.setOnKeyReleased(new EventHandler<KeyEvent>(){
 		            public void handle(KeyEvent e){
 		            	KeyCode code = e.getCode();
-		                stopMyHunter(code);
+		                stopMyLadybug(code);
 		            }
 		        });
     }
 	
 	//method that will move the ship depending on the key pressed
-	private void moveMyHunter(KeyCode ke) {
+	private void moveMyLadybug(KeyCode ke) {
 		{
 			if(ke==KeyCode.UP) this.ladybug.setDY(-10);                 
 	
@@ -580,7 +585,7 @@ public class GameTimer extends AnimationTimer{
    	}
 	
 	//method that will stop the ship's movement; set the ship's DX and DY to 0
-	private void stopMyHunter(KeyCode ke){
+	private void stopMyLadybug(KeyCode ke){
 		this.ladybug.setDX(0);
 		this.ladybug.setDY(0);
 	}

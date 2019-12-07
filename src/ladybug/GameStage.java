@@ -31,10 +31,20 @@ public class GameStage {
 	private GridPane map;
 	private GameTimer gametimer;
 		
-	public final static int MAP_WIDTH = 760; //190 pixels
-	public final static int MAP_HEIGHT = 760; //190 pixels
-	public final static int WINDOW_WIDTH = 760; //190 pixels
-	public final static int WINDOW_HEIGHT = 952; //238 pixels
+	public final static int SCREEN_RESOLUTION = 4;
+	
+	public final static int CELL_SIZE = 16 * GameStage.SCREEN_RESOLUTION;
+		
+	public final static int MAP_WIDTH = 190 * GameStage.SCREEN_RESOLUTION;
+	public final static int MAP_HEIGHT = 190 * GameStage.SCREEN_RESOLUTION;
+	public final static int WINDOW_WIDTH = 190 * GameStage.SCREEN_RESOLUTION;
+	public final static int WINDOW_HEIGHT = 238 * GameStage.SCREEN_RESOLUTION;
+	
+	public final static int GAME_BOUND_WALL = 7 * GameStage.SCREEN_RESOLUTION;
+	public final static int GAME_BOUND_RIGHT = GameStage.WINDOW_WIDTH - (GameStage.GAME_BOUND_WALL + GameStage.CELL_SIZE - 8);
+	public final static int GAME_BOUND_DOWN = GameStage.WINDOW_HEIGHT - (GameStage.GAME_BOUND_WALL + GameStage.CELL_SIZE + GameStage.CELL_SIZE + GameStage.CELL_SIZE - 8);	
+	public final static int GAME_BOUND_UP = GameStage.GAME_BOUND_WALL + GameStage.CELL_SIZE;
+	public final static int GAME_BOUND_LEFT = GameStage.GAME_BOUND_WALL;
 	
 	public static boolean IS_GAME_DONE = false;
 	

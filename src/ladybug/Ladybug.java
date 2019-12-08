@@ -31,7 +31,7 @@ public class Ladybug extends Sprite{
 		this.name = name;
 		this.alive = true;
 		
-		this.loadImage(Ladybug.LADYBUG_IMAGE);
+		this.loadImage(Ladybug.LADYBUG_IMAGE_UP);
 	}
 	//getters
 

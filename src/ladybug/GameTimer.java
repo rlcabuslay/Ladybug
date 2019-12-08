@@ -40,7 +40,7 @@ public class GameTimer extends AnimationTimer{
 	public static int score=0;
 	public static int currentLevel=0;
 	public static int lives=3;
-	public static int timeSped=15;
+	public static long interval = 18; //6, 9, 18
 	public static int insectTime=1;
 	public static boolean deathTransition=false;
 	public static boolean levelTransition=false;
@@ -123,70 +123,50 @@ public class GameTimer extends AnimationTimer{
 		if(GameTimer.levelTransition==false&&GameTimer.deathTransition==false) {
 		
 			//for game timer // to be merged
-			long interval = 9;
-			long currentSec2 = TimeUnit.NANOSECONDS.toSeconds(currentNanoTime*interval);
-			long startSec2 = TimeUnit.NANOSECONDS.toSeconds(this.startSpawn*interval);
-			//for insect timer // to be merged
 			long currentSec = TimeUnit.NANOSECONDS.toSeconds(currentNanoTime);
 			long startSec = TimeUnit.NANOSECONDS.toSeconds(this.startSpawn);
-			this.gc.clearRect(0, 0, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
+			int timer = (int)((TimeUnit.NANOSECONDS.toMillis(currentNanoTime*interval) - TimeUnit.NANOSECONDS.toMillis(this.startSpawn*interval) + (60f/92f))/1000);
 			
-			//redraw background elements
+			//clear and redraw background elements
+			this.gc.clearRect(0, 0, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
 			this.gc.setFill(Color.BLACK);
 			this.gc.fillRect(0, 0, GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT);
 			this.gc.drawImage(GameStage.top, 0, 0);
 			
-			//Time
-			int time = (int)((currentSec2 - startSec2));
-			
 			//Background Square
-			if(time%184 < 92) this.gc.setFill(Color.WHITE);
-			else this.gc.setFill(Color.RED);
+			if(timer%184 < 92) this.gc.setFill(Color.WHITE);
+			else this.gc.setFill(Color.GREEN);
 			this.gc.fillRect(0, 64, GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT-(64*3));
 			
 			//Timer Bar
-			if(time%184 < 92) this.gc.setFill(Color.RED);
+			if(timer%184 < 92) this.gc.setFill(Color.GREEN);
 			else this.gc.setFill(Color.WHITE);
 			
-			if(time%92 < 12)
-				this.gc.fillRect(GameStage.WINDOW_WIDTH/2, 64, (time%92)*32, 28);
-			else if(time%92 < 34)
-				this.gc.fillRect(GameStage.WINDOW_WIDTH/2, 64, 12*32, 28+((time%92)-12)*32);
+			if(timer%92 < 12)
+				this.gc.fillRect(GameStage.WINDOW_WIDTH/2, 64, (timer%92)*32, 28);
+			else if(timer%92 < 34)
+				this.gc.fillRect(GameStage.WINDOW_WIDTH/2, 64, 12*32, 28+((timer%92)-12)*32);
 			else
 				this.gc.fillRect(GameStage.WINDOW_WIDTH/2, 64, 12*32, 28+(34-12)*32);
 			
-			if(time%92 < 58)
-				this.gc.fillRect(GameStage.WINDOW_WIDTH-(((time%92)-34)*32), GameStage.WINDOW_WIDTH+32, 24*32, 28);
+			if(timer%92 < 58)
+				this.gc.fillRect(GameStage.WINDOW_WIDTH-(((timer%92)-34)*32), GameStage.WINDOW_WIDTH+32, 24*32, 28);
 			else
 				this.gc.fillRect(0, GameStage.WINDOW_WIDTH+32, 24*32, 28);
 			
-			if(time%92 > 58 && time%92 < 81)
-				this.gc.fillRect(0, GameStage.WINDOW_WIDTH+4-(((time%92)-59)*32), 28, 28+(((time%92)-59)*32));
-			else if(time%92 > 58 && time%92 != 0)
-				this.gc.fillRect(0, 64, 28+(((time%92)-81)*32), 28+(34-12)*32);
+			if(timer%92 > 58 && timer%92 < 81)
+				this.gc.fillRect(0, GameStage.WINDOW_WIDTH+4-(((timer%92)-59)*32), 28, 28+(((timer%92)-59)*32));
+			else if(timer%92 > 58 && timer%92 != 0)
+				this.gc.fillRect(0, 64, 28+(((timer%92)-81)*32), 28+(34-12)*32);
 			
 			this.gc.drawImage(GameStage.bg, 0, 64);
 			
-			for(int i=0;i<GameTimer.lives-1;i++) {
+			for(int i=0;i<GameTimer.lives-1;i++)
 				this.gc.drawImage(Ladybug.LADYBUG_IMAGE_RIGHT, 28+(64*i), 824);
-			}
 			
-	//		this.gc.drawImage(Ladybug.LADYBUG_IMAGE, 28, 92);
-			
-			this.gc.setFont(font);
+			this.gc.setFont(this.font);
 			String str = Integer.toString(GameTimer.score); 
 			this.gc.fillText("Score: "+str, 300, 900);
-			
-			//===FONT PROPOSAL===
-//			Font font = Font.loadFont(ClassLoader.getSystemResource("fonts/PressStart2P-Regular.ttf").toExternalForm(),  32); 
-//			this.gc.setFont(font);
-//			this.gc.setFill(Color.RED);	
-//			this.gc.fillText("SPECIAL", 0, 64);
-//			this.gc.setFill(Color.YELLOW);
-//			this.gc.fillText("EXTRA", 252, 64);
-//			this.gc.setFill(Color.BLUE);
-//			this.gc.fillText("x2x3x5", 508, 64);
-		
 			
 			this.ladybug.move();
 			
@@ -216,19 +196,19 @@ public class GameTimer extends AnimationTimer{
 						this.skulls.remove(j);
 						this.insects.get(i).die();
 						if(GameTimer.vegetablePresent==true) {
-							this.vegetable.add(new Collectible("Vegetable",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+							this.vegetable.add(new Collectible("Vegetable", GameStage.locateXGrid(6), GameStage.locateYGrid(6)));
 						}
 					}
 				}
 			}
 			
 			
-			if((currentSec - startSec)%(GameTimer.timeSped*GameTimer.insectTime) == 0 && (currentSec - startSec)!=0) {
+			if((timer)%(92 * GameTimer.insectTime) == 0 && timer !=0) {
 				if(this.insects.get(0).getReleased()==false&&this.disabled==false) {
 					this.insects.get(0).setReleased();
 					if(GameTimer.allInsectReleased==false) GameTimer.insectTime++;
 					else if(GameTimer.allInsectReleased==true&&GameTimer.vegetablePresent==false) {
-						this.vegetable.add(new Collectible("Vegetable",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+						this.vegetable.add(new Collectible("Vegetable", GameStage.locateXGrid(6), GameStage.locateYGrid(6)));
 						GameTimer.vegetablePresent=true;
 					}
 				}
@@ -236,7 +216,7 @@ public class GameTimer extends AnimationTimer{
 					this.insects.get(1).setReleased();
 					if(GameTimer.allInsectReleased==false) GameTimer.insectTime++;
 					else if(GameTimer.allInsectReleased==true&&GameTimer.vegetablePresent==false) {
-						this.vegetable.add(new Collectible("Vegetable",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+						this.vegetable.add(new Collectible("Vegetable", GameStage.locateXGrid(6), GameStage.locateYGrid(6)));
 						GameTimer.vegetablePresent=true;
 					}
 				}
@@ -244,7 +224,7 @@ public class GameTimer extends AnimationTimer{
 					this.insects.get(2).setReleased();
 					if(GameTimer.allInsectReleased==false) GameTimer.insectTime++;
 					else if(GameTimer.allInsectReleased==true&&GameTimer.vegetablePresent==false) {
-						this.vegetable.add(new Collectible("Vegetable",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+						this.vegetable.add(new Collectible("Vegetable", GameStage.locateXGrid(6), GameStage.locateYGrid(6)));
 						GameTimer.vegetablePresent=true;
 					}
 				}
@@ -253,7 +233,7 @@ public class GameTimer extends AnimationTimer{
 					GameTimer.insectTime=1;
 					GameTimer.allInsectReleased=true;
 					if(GameTimer.vegetablePresent==false) {
-						this.vegetable.add(new Collectible("Vegetable",GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-20));
+						this.vegetable.add(new Collectible("Vegetable", GameStage.locateXGrid(6), GameStage.locateYGrid(6)));
 						GameTimer.vegetablePresent=true;
 					}
 					
@@ -278,41 +258,32 @@ public class GameTimer extends AnimationTimer{
 				}
 			}
 			
-			
-			if((currentSec - startSec) == 1 || (currentSec - startSec)%11 == 0) {
-				for(Collectible heart:this.hearts) {
-					heart.changeColorRed();
-				}
-				for(Collectible letter:this.letters) {
-					letter.changeColorRed();
-				}
-				
-			}
-			
-			if((currentSec - startSec) == 4 || (currentSec - startSec)%14 == 0) {
-				for(Collectible heart:this.hearts) {
-					heart.changeColorYellow();
-				}
-				for(Collectible letter:this.letters) {
-					letter.changeColorYellow();
-				}
-			}
+			System.out.println((currentSec - startSec)%10 + "\n");
 			
 			if((currentSec - startSec)%10 == 0) {
-				for(Collectible heart:this.hearts) {
+				for(Collectible heart:this.hearts)
 					heart.changeColorBlue();
-				}
-				for(Collectible letter:this.letters) {
+				for(Collectible letter:this.letters)
 					letter.changeColorBlue();
-				}
-	
+			}
+			
+			if((currentSec - startSec)%10 == 1) {
+				for(Collectible heart:this.hearts)
+					heart.changeColorRed();
+				for(Collectible letter:this.letters)
+					letter.changeColorRed();
+			}
+			
+			if((currentSec - startSec)%10 == 4) {
+				for(Collectible heart:this.hearts)
+					heart.changeColorYellow();
+				for(Collectible letter:this.letters)
+					letter.changeColorYellow();
 			}
 			
 			for(Collectible heart:this.hearts) {
 				heart.render(this.gc);
 			}
-			
-			
 			
 			for (int i=0; i<this.skulls.size(); i++) {
 				if(this.skulls.get(i).collidesWith(this.ladybug)) {
@@ -419,8 +390,8 @@ public class GameTimer extends AnimationTimer{
 			GameTimer.multiplier=1;
 			GameTimer.insectTime=1;
 			GameTimer.vegetablePresent=false;
-			if(GameTimer.currentLevel==1) GameTimer.timeSped-=5;
-			if(GameTimer.currentLevel==4) GameTimer.timeSped-=5;
+//			if(GameTimer.currentLevel==1) GameTimer.timeSped-=5;
+//			if(GameTimer.currentLevel==4) GameTimer.timeSped-=5;
 			System.out.println(GameTimer.currentLevel);
 			GameTimer.levelTransition=false;
 			this.frozenMilli=0;

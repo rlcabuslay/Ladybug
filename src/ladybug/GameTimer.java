@@ -125,7 +125,7 @@ public class GameTimer extends AnimationTimer{
 			//for game timer // to be merged
 			long currentSec = TimeUnit.NANOSECONDS.toSeconds(currentNanoTime);
 			long startSec = TimeUnit.NANOSECONDS.toSeconds(this.startSpawn);
-			int timer = (int)((TimeUnit.NANOSECONDS.toMillis(currentNanoTime*interval) - TimeUnit.NANOSECONDS.toMillis(this.startSpawn*interval) + (60f/92f))/1000);
+			int timer = (int)((TimeUnit.NANOSECONDS.toMillis(currentNanoTime*GameTimer.interval) - TimeUnit.NANOSECONDS.toMillis(this.startSpawn*interval) + (60f/92f))/1000);
 			
 			//clear and redraw background elements
 			this.gc.clearRect(0, 0, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
@@ -165,8 +165,10 @@ public class GameTimer extends AnimationTimer{
 				this.gc.drawImage(Ladybug.LADYBUG_IMAGE_RIGHT, 28+(64*i), 824);
 			
 			this.gc.setFont(this.font);
-			String str = Integer.toString(GameTimer.score); 
-			this.gc.fillText("Score: "+str, 300, 900);
+			String strLevel = Integer.toString(GameTimer.currentLevel); 
+			String strScore = Integer.toString(GameTimer.score); 
+			this.gc.fillText("Level "+strLevel, 300, 860);
+			this.gc.fillText("Score: "+strScore, 300, 900);
 			
 			this.ladybug.move();
 			
@@ -176,7 +178,7 @@ public class GameTimer extends AnimationTimer{
 			}
 			
 			for(int i=0; i<this.insects.size(); i++) {
-				this.insects.get(i).move();
+				this.insects.get(i).move(currentSec); //gets the currentSec
 				if(this.insects.get(i).collidesWith(this.ladybug)&&this.insects.get(i).getReleased()==true) {
 					if(GameTimer.vegetablePresent==true) {
 						this.vegetable.remove(0);
@@ -203,7 +205,7 @@ public class GameTimer extends AnimationTimer{
 			}
 			
 			
-			if((timer)%(92 * GameTimer.insectTime) == 0 && timer !=0) {
+			if((timer)%(92 * GameTimer.insectTime) == 0 && timer != 0) {
 				if(this.insects.get(0).getReleased()==false&&this.disabled==false) {
 					this.insects.get(0).setReleased();
 					if(GameTimer.allInsectReleased==false) GameTimer.insectTime++;
@@ -390,8 +392,8 @@ public class GameTimer extends AnimationTimer{
 			GameTimer.multiplier=1;
 			GameTimer.insectTime=1;
 			GameTimer.vegetablePresent=false;
-//			if(GameTimer.currentLevel==1) GameTimer.timeSped-=5;
-//			if(GameTimer.currentLevel==4) GameTimer.timeSped-=5;
+//			if(GameTimer.currentLevel==1) GameTimer.interval=9;
+//			if(GameTimer.currentLevel==4) GameTimer.interval=18;
 			System.out.println(GameTimer.currentLevel);
 			GameTimer.levelTransition=false;
 			this.frozenMilli=0;

@@ -30,19 +30,19 @@ public class GameStage {
 	private GraphicsContext gc;
 	private GridPane map;
 	private GameTimer gametimer;
-		
-	public final static int SCREEN_RESOLUTION = 4;
 	
-	public final static int CELL_SIZE = 16 * GameStage.SCREEN_RESOLUTION;
-		
-	public final static int MAP_WIDTH = 190 * GameStage.SCREEN_RESOLUTION;
-	public final static int MAP_HEIGHT = 190 * GameStage.SCREEN_RESOLUTION;
-	public final static int WINDOW_WIDTH = 190 * GameStage.SCREEN_RESOLUTION;
-	public final static int WINDOW_HEIGHT = 238 * GameStage.SCREEN_RESOLUTION;
+	public final static int PIXEL_SIZE = 4;
 	
-	public final static int GAME_BOUND_WALL = 7 * GameStage.SCREEN_RESOLUTION;
-	public final static int GAME_BOUND_RIGHT = GameStage.WINDOW_WIDTH - (GameStage.GAME_BOUND_WALL + GameStage.CELL_SIZE - 8);
-	public final static int GAME_BOUND_DOWN = GameStage.WINDOW_HEIGHT - (GameStage.GAME_BOUND_WALL + GameStage.CELL_SIZE + GameStage.CELL_SIZE + GameStage.CELL_SIZE - 8);	
+	public final static int CELL_SIZE = 16 * GameStage.PIXEL_SIZE;
+		
+	public final static int MAP_WIDTH = 190 * GameStage.PIXEL_SIZE;
+	public final static int MAP_HEIGHT = 190 * GameStage.PIXEL_SIZE;
+	public final static int WINDOW_WIDTH = 190 * GameStage.PIXEL_SIZE;
+	public final static int WINDOW_HEIGHT = 238 * GameStage.PIXEL_SIZE;
+	
+	public final static int GAME_BOUND_WALL = 7 * GameStage.PIXEL_SIZE;
+	public final static int GAME_BOUND_RIGHT = GameStage.WINDOW_WIDTH - (GameStage.GAME_BOUND_WALL + GameStage.CELL_SIZE - 2*GameStage.PIXEL_SIZE);
+	public final static int GAME_BOUND_DOWN = GameStage.WINDOW_HEIGHT - (GameStage.GAME_BOUND_WALL + GameStage.CELL_SIZE + GameStage.CELL_SIZE + GameStage.CELL_SIZE - 2*GameStage.PIXEL_SIZE);	
 	public final static int GAME_BOUND_UP = GameStage.GAME_BOUND_WALL + GameStage.CELL_SIZE;
 	public final static int GAME_BOUND_LEFT = GameStage.GAME_BOUND_WALL;
 	
@@ -50,7 +50,7 @@ public class GameStage {
 	
 	public final static Image bg = new Image("images/LadyBugMaze.png", GameStage.MAP_WIDTH, GameStage.MAP_HEIGHT, false, false);
 	public final static Image top = new Image("images/Sprites/Arcade - Lady Bug - Maze (5).png", GameStage.MAP_WIDTH, GameStage.CELL_SIZE, false, false);
-	public final static Image gameover = new Image("images/Sprites/GameOver.png", GameStage.MAP_WIDTH, GameStage.MAP_HEIGHT, false, false);;
+	public final static Image gameover = new Image("images/Sprites/GameOver.png", GameStage.MAP_WIDTH, GameStage.MAP_HEIGHT, false, false);
 	
 	public GameStage() {
 		this.root = new Group();
@@ -147,6 +147,7 @@ public class GameStage {
 	public static int locateYGrid(int locY) {
 		return GameStage.GAME_BOUND_WALL + locY*GameStage.CELL_SIZE + GameStage.PIXEL_SIZE;
 	}
+	
 	//======================EVENT HANDLERS===================================
 	
 	

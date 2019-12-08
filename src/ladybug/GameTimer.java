@@ -36,15 +36,19 @@ public class GameTimer extends AnimationTimer{
 	private boolean disabled;
 	private int[][] gameBoard;
 	private static boolean allInsectReleased=false;
+	private static String currentDisplay;
+	private static int currentDisplayX;
+	private static int currentDisplayY;
 	
 	public static int multiplier=1;
 	public static int score=0;
 	public static int currentLevel=0;
 	public static int lives=3;
-	public static long interval = 18; //6, 9, 18
+	public static long interval = 6; //6, 9, 18
 	public static int insectTime=1;
 	public static boolean deathTransition=false;
 	public static boolean levelTransition=false;
+	public static boolean powerTransition=false;
 	public static boolean vegetablePresent=false;
 	public static boolean takenX=false;
 	public static boolean takenT=false;
@@ -61,6 +65,7 @@ public class GameTimer extends AnimationTimer{
 	public static ArrayList<Character> extra = new ArrayList<Character>();
 	public static ArrayList<Character> special = new ArrayList<Character>();
 	private Font font = Font.loadFont(getClass().getResourceAsStream("PressStart2P-Regular.ttf"),  25);
+	private Font font2 = Font.loadFont(getClass().getResourceAsStream("PressStart2P-Regular.ttf"),  20);
 	
 	GameTimer(GraphicsContext gc, Scene theScene){
 		this.gc = gc;
@@ -121,7 +126,7 @@ public class GameTimer extends AnimationTimer{
 	@Override
 	public void handle(long currentNanoTime) {
 		long currentMilli = TimeUnit.NANOSECONDS.toMillis(currentNanoTime);
-		if(GameTimer.levelTransition==false&&GameTimer.deathTransition==false) {
+		if(GameTimer.levelTransition==false&&GameTimer.deathTransition==false&&GameTimer.powerTransition==false) {
 		
 			//for game timer // to be merged
 			long currentSec = TimeUnit.NANOSECONDS.toSeconds(currentNanoTime);
@@ -166,10 +171,10 @@ public class GameTimer extends AnimationTimer{
 				this.gc.drawImage(Ladybug.LADYBUG_IMAGE_RIGHT, 28+(64*i), 824);
 			
 			this.gc.setFont(this.font);
-			String strLevel = Integer.toString(GameTimer.currentLevel); 
+			String strLevel = Integer.toString(GameTimer.currentLevel+1); 
 			String strScore = Integer.toString(GameTimer.score); 
-			this.gc.fillText("Level "+strLevel, 300, 860);
-			this.gc.fillText("Score: "+strScore, 300, 900);
+			this.gc.fillText("Level "+strLevel, 400, 860);
+			this.gc.fillText("Score: "+strScore, 400, 900);
 			
 			this.ladybug.move();
 			
@@ -307,7 +312,14 @@ public class GameTimer extends AnimationTimer{
 			for (int i=0; i<this.hearts.size(); i++) {
 				if(this.hearts.get(i).collidesWith(this.ladybug)) {
 					this.hearts.get(i).collide();
+					//power-up animation
+					GameTimer.powerTransition=true;
+					GameTimer.currentDisplay=Integer.toString(this.hearts.get(i).getDisplay());
+					GameTimer.currentDisplayX=this.hearts.get(i).getX();
+					GameTimer.currentDisplayY=this.hearts.get(i).getY();
+					this.frozenMilli=currentMilli+500;
 					this.hearts.remove(i);
+					
 				}
 			}
 			
@@ -366,6 +378,12 @@ public class GameTimer extends AnimationTimer{
 			for (int i=0; i<this.vegetable.size(); i++) {
 				if(this.vegetable.get(i).collidesWith(this.ladybug)) {
 					this.vegetable.get(i).collide();
+					//power-up animation
+					GameTimer.powerTransition=true;
+					GameTimer.currentDisplay=Integer.toString(this.vegetable.get(i).getDisplay());
+					GameTimer.currentDisplayX=this.vegetable.get(i).getX();
+					GameTimer.currentDisplayY=this.vegetable.get(i).getY();
+					this.frozenMilli=currentMilli+500;
 					this.vegetable.remove(i);
 					GameTimer.vegetablePresent=false;
 					this.disabled=true;
@@ -395,6 +413,12 @@ public class GameTimer extends AnimationTimer{
 			for (int i=0; i<this.letters.size(); i++) {
 				if(this.letters.get(i).collidesWith(this.ladybug)) {
 					this.letters.get(i).collide();
+					//power-up animation
+					GameTimer.powerTransition=true;
+					GameTimer.currentDisplay=Integer.toString(this.letters.get(i).getDisplay());
+					GameTimer.currentDisplayX=this.letters.get(i).getX();
+					GameTimer.currentDisplayY=this.letters.get(i).getY();
+					this.frozenMilli=currentMilli+500;
 					this.letters.remove(i);
 				}
 			}
@@ -413,6 +437,15 @@ public class GameTimer extends AnimationTimer{
 		
 //		System.out.println(frozenMilli);
 //		System.out.println(currentMilli);
+		if(currentMilli<=frozenMilli&&GameTimer.powerTransition==true) { //power-up animation
+			this.gc.setFont(this.font2);
+			this.gc.setFill(Color.rgb(174, 174, 255));
+			this.gc.fillText(GameTimer.currentDisplay, GameTimer.currentDisplayX, GameTimer.currentDisplayY);
+		}
+		else if(currentMilli>this.frozenMilli&&this.frozenMilli!=0&&GameTimer.powerTransition==true) {
+			GameTimer.powerTransition=false;
+		}
+		
 		
 		if((this.flowers.size()==0&&this.hearts.size()==0&&this.letters.size()==0||GameTimer.extra.size()==5||GameTimer.special.size()==7)&&GameTimer.levelTransition==false) {
 			GameTimer.levelTransition=true;
@@ -440,16 +473,8 @@ public class GameTimer extends AnimationTimer{
 				GameTimer.special.clear();
 			}
 			changeLevel();
-			GameTimer.currentLevel++;
-			GameTimer.multiplier=1;
-			GameTimer.insectTime=1;
-			GameTimer.vegetablePresent=false;
-//			if(GameTimer.currentLevel==1) GameTimer.interval=9;
-//			if(GameTimer.currentLevel==4) GameTimer.interval=18;
-			System.out.println(GameTimer.currentLevel);
-			GameTimer.levelTransition=false;
-			this.frozenMilli=0;
 		}
+		
 		
 		if(currentMilli<=frozenMilli&&GameTimer.deathTransition==true) {
 			this.ladybug.deathAnimation(currentMilli, this.frozenMilli);
@@ -460,6 +485,7 @@ public class GameTimer extends AnimationTimer{
 			this.ladybug.die();
 			GameTimer.deathTransition=false;
 		}
+		
 		
 		if(GameStage.IS_GAME_DONE==true) {
 			this.gc.drawImage(GameStage.gameover, 0, 64);
@@ -487,25 +513,25 @@ public class GameTimer extends AnimationTimer{
 		for(int i=0; i<11; i++) {
 			for(int j=0; j<11; j++) {
 				if(this.gameBoard[i][j]==0){
-					this.flowers.add(new Collectible("Flower", 38+(65*i), 100+(65*j)));
+					this.flowers.add(new Collectible("Flower", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
 				}
 				else if(this.gameBoard[i][j]==1||this.gameBoard[i][j]==2||this.gameBoard[i][j]==3) {
-					this.hearts.add(new Collectible("RedHeart", 38+(65*i),100+(65*j)));
+					this.hearts.add(new Collectible("RedHeart", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
 				}
 				else if(this.gameBoard[i][j]==4) {
-					this.letters.add(new Collectible("XTR", 38+(65*i),100+(65*j)));
+					this.letters.add(new Collectible("XTR", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
 				}
 				else if(this.gameBoard[i][j]==5) {
-					this.letters.add(new Collectible("SPCIL", 38+(65*i),100+(65*j)));
+					this.letters.add(new Collectible("SPCIL", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
 				}
 				else if(this.gameBoard[i][j]==6) {
-					this.letters.add(new Collectible("AE", 38+(65*i),100+(65*j)));
+					this.letters.add(new Collectible("AE", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
 				}
 				else if(this.gameBoard[i][j]==7) {
-					this.skulls.add(new Collectible("Skull", 38+(65*i),100+(65*j)));
+					this.skulls.add(new Collectible("Skull", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
 				}
 				else if(this.gameBoard[i][j]==8) {
-					this.skulls.add(new Collectible("Skull", 38+(65*i),100+(65*j)));
+					this.skulls.add(new Collectible("Skull", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
 				}
 			}
 		}
@@ -515,6 +541,16 @@ public class GameTimer extends AnimationTimer{
 		this.frozenMilli=0;
 		
 		this.disabled=false;
+		
+		GameTimer.currentLevel++;
+		GameTimer.multiplier=1;
+		GameTimer.insectTime=1;
+		GameTimer.vegetablePresent=false;
+		if(GameTimer.currentLevel==1) GameTimer.interval=9;
+		if(GameTimer.currentLevel==4) GameTimer.interval=18;
+		System.out.println(GameTimer.currentLevel);
+		GameTimer.levelTransition=false;
+		this.frozenMilli=0;
 		
 		this.handleKeyPressEvent();
 	}

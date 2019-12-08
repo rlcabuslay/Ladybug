@@ -2,6 +2,7 @@ package ladybug;
 
 import javafx.scene.image.Image;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 
 public class Insect extends Sprite{
@@ -57,11 +58,11 @@ public class Insect extends Sprite{
 	
 	public void setReleased() {
 		this.released=true;
+		this.start = System.nanoTime(); //gets the time when it was released
 	}
 	
 	public boolean getReleased() {
 		return this.released;
-		this.start = System.nanoTime(); //gets the time when it was released
 	}
 	
 	public void setFrozen() {

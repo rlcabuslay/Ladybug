@@ -135,11 +135,11 @@ public class GameTimer extends AnimationTimer{
 			
 			//Background Square
 			if(timer%184 < 92) this.gc.setFill(Color.WHITE);
-			else this.gc.setFill(Color.GREEN);
+			else this.gc.setFill(Color.LIME);
 			this.gc.fillRect(0, 64, GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT-(64*3));
 			
 			//Timer Bar
-			if(timer%184 < 92) this.gc.setFill(Color.GREEN);
+			if(timer%184 < 92) this.gc.setFill(Color.LIME);
 			else this.gc.setFill(Color.WHITE);
 			
 			if(timer%92 < 12)

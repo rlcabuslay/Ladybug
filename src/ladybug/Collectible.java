@@ -5,6 +5,7 @@ import java.util.Random;
 
 public class Collectible extends Sprite{
 	private String name;
+	private int display;
 	public static int numberBlueHearts=0;
 	
 	public final static Image FLOWER_IMAGE = new Image("images/Sprites/Flower.png",Collectible.FLOWER_WIDTH,Collectible.FLOWER_WIDTH,false,false);
@@ -156,15 +157,25 @@ public class Collectible extends Sprite{
 		}
 	}
 	
+	public void setDisplay(int score) {
+		this.display=score;
+	}
+	
+	public int getDisplay() {
+		return this.display;
+	}
+	
 	public void collide() {
 		if(this.name=="Flower") {
 			GameTimer.score+=10*(GameTimer.multiplier);
 		}
 		else if(this.name=="Vegetable") {
 			GameTimer.score+=1000+(GameTimer.currentLevel*500);
+			this.setDisplay(1000+(GameTimer.currentLevel*500));
 		}
 		else if(this.name=="BlueHeart"||this.name=="BlueX"||this.name=="BlueT"||this.name=="BlueR"||this.name=="BlueS"||this.name=="BlueP"||this.name=="BlueC"||this.name=="BlueI"||this.name=="BlueL"||this.name=="BlueA"||this.name=="BlueE") {
 			GameTimer.score+=100*(GameTimer.multiplier);
+			this.setDisplay(100*(GameTimer.multiplier));
 			if(this.name=="BlueHeart") {
 				Collectible.numberBlueHearts++;
 				if(Collectible.numberBlueHearts==1) {
@@ -180,6 +191,7 @@ public class Collectible extends Sprite{
 		}
 		else if(this.name=="YellowHeart"||this.name=="YellowX"||this.name=="YellowT"||this.name=="YellowR"||this.name=="YellowS"||this.name=="YellowP"||this.name=="YellowC"||this.name=="YellowI"||this.name=="YellowL"||this.name=="YellowA"||this.name=="YellowE") {
 			GameTimer.score+=300*(GameTimer.multiplier);
+			this.setDisplay(300*(GameTimer.multiplier));
 			if(this.name=="YellowX") {
 				if(GameTimer.takenX==false) {
 					GameTimer.extra.add('X');
@@ -219,6 +231,7 @@ public class Collectible extends Sprite{
 		}
 		else if(this.name=="RedHeart"||this.name=="RedX"||this.name=="RedT"||this.name=="RedR"||this.name=="RedS"||this.name=="RedP"||this.name=="RedC"||this.name=="RedI"||this.name=="RedL"||this.name=="RedA"||this.name=="RedE") {
 			GameTimer.score+=800*(GameTimer.multiplier);
+			this.setDisplay(800*(GameTimer.multiplier));
 			if(this.name=="RedS") {
 				if(GameTimer.takenS==false) {
 					GameTimer.special.add('S');

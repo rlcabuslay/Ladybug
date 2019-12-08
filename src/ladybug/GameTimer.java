@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -185,10 +186,11 @@ public class GameTimer extends AnimationTimer{
 						GameTimer.vegetablePresent=false;
 					}
 					this.startSpawn = System.nanoTime();
-					GameTimer.insectTime=1;
 					for(Insect insect:this.insects) {
 						insect.die();
 					}
+					GameTimer.insectTime=1;
+					GameTimer.allInsectReleased=false;
 					GameTimer.deathTransition=true;
 					this.frozenMilli=currentMilli+1500;
 				}
@@ -243,53 +245,53 @@ public class GameTimer extends AnimationTimer{
 			}
 			
 			// ==================== LIGHTUP ==================== //  
-			Image SpS = new Image("images/Sprites/Letters/SpS.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
-			Image SpP = new Image("images/Sprites/Letters/SpP.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
-			Image SpE = new Image("images/Sprites/Letters/SpE.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
-			Image SpC = new Image("images/Sprites/Letters/SpC.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
-			Image SpI = new Image("images/Sprites/Letters/SpI.png", 8*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
-			Image SpA = new Image("images/Sprites/Letters/SpA.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
-			Image SpL = new Image("images/Sprites/Letters/SpL.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
-			
-			Image ExE = new Image("images/Sprites/Letters/ExE.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
-			Image ExX = new Image("images/Sprites/Letters/ExX.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
-			Image ExT = new Image("images/Sprites/Letters/ExT.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
-			Image ExR = new Image("images/Sprites/Letters/ExR.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
-			Image ExA = new Image("images/Sprites/Letters/ExA.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
-			
-			Image MuX = new Image("images/Sprites/Letters/MuX.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
-			Image Mu2 = new Image("images/Sprites/Letters/Mu2.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
-			Image Mu3 = new Image("images/Sprites/Letters/Mu3.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
-			Image Mu5 = new Image("images/Sprites/Letters/Mu5.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
-			
-			System.out.print("S " + GameTimer.takenS + "\n");
-			System.out.print("P " + GameTimer.takenP + "\n");
-			System.out.print("E " + GameTimer.takenEspecial + "\n");
-			System.out.print("C " + GameTimer.takenC + "\n");
-			System.out.print("I " + GameTimer.takenI + "\n");
-			System.out.print("A " + GameTimer.takenAspecial + "\n");
-			System.out.println("L " + GameTimer.takenL + "\n");
-			
-			if(GameTimer.takenS == true ) this.gc.drawImage(SpS, 28 + 0*8*GameStage.PIXEL_SIZE, 32);
-			if(GameTimer.takenP == true ) this.gc.drawImage(SpP, 28 + 1*8*GameStage.PIXEL_SIZE, 32);
-			if(GameTimer.takenEspecial == true ) this.gc.drawImage(SpE, 28 + 2*8*GameStage.PIXEL_SIZE, 32);
-			if(GameTimer.takenC == true ) this.gc.drawImage(SpC, 28 + 3*8*GameStage.PIXEL_SIZE, 32);
-			if(GameTimer.takenI == true ) this.gc.drawImage(SpI, 28 + 4*8*GameStage.PIXEL_SIZE, 32);
-			if(GameTimer.takenAspecial == true ) this.gc.drawImage(SpA, 28 + 5*8*GameStage.PIXEL_SIZE, 32);
-			if(GameTimer.takenL == true ) this.gc.drawImage(SpL, 28 + 6*8*GameStage.PIXEL_SIZE, 32);
-			
-			if(GameTimer.takenEextra == true ) this.gc.drawImage(ExE, 8 + 28*3 + 7*8*GameStage.PIXEL_SIZE + 0*8*GameStage.PIXEL_SIZE, 32);
-			if(GameTimer.takenX == true ) this.gc.drawImage(ExX, 8 + 28*3 + 7*8*GameStage.PIXEL_SIZE + 1*8*GameStage.PIXEL_SIZE, 32);
-			if(GameTimer.takenT == true ) this.gc.drawImage(ExT, 8 + 28*3 + 7*8*GameStage.PIXEL_SIZE + 2*8*GameStage.PIXEL_SIZE, 32);
-			if(GameTimer.takenR == true ) this.gc.drawImage(ExR, 8 + 28*3 + 7*8*GameStage.PIXEL_SIZE + 3*8*GameStage.PIXEL_SIZE, 32);
-			if(GameTimer.takenAextra == true ) this.gc.drawImage(ExA, 8 + 28*3 + 7*8*GameStage.PIXEL_SIZE + 4*8*GameStage.PIXEL_SIZE, 32);
-			
-			if(GameTimer.multiplier == 2 ) this.gc.drawImage(MuX, 12 + 28*5 + 12*8*GameStage.PIXEL_SIZE + 0*8*GameStage.PIXEL_SIZE, 32);
-			if(GameTimer.multiplier == 2 ) this.gc.drawImage(Mu2, 12 +  28*5 + 12*8*GameStage.PIXEL_SIZE + 1*8*GameStage.PIXEL_SIZE, 32);
-			if(GameTimer.multiplier == 3 ) this.gc.drawImage(MuX, 12 + 28*5 + 12*8*GameStage.PIXEL_SIZE + 2*8*GameStage.PIXEL_SIZE, 32);
-			if(GameTimer.multiplier == 3 ) this.gc.drawImage(Mu3, 12 + 28*5 + 12*8*GameStage.PIXEL_SIZE + 3*8*GameStage.PIXEL_SIZE, 32);
-			if(GameTimer.multiplier == 5 ) this.gc.drawImage(MuX, 12 + 28*5 + 12*8*GameStage.PIXEL_SIZE + 4*8*GameStage.PIXEL_SIZE, 32);
-			if(GameTimer.multiplier == 5 ) this.gc.drawImage(Mu5, 12 + 28*5 + 12*8*GameStage.PIXEL_SIZE + 5*8*GameStage.PIXEL_SIZE, 32);
+						Image SpS = new Image("images/Sprites/Letters/SpS.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
+						Image SpP = new Image("images/Sprites/Letters/SpP.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
+						Image SpE = new Image("images/Sprites/Letters/SpE.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
+						Image SpC = new Image("images/Sprites/Letters/SpC.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
+						Image SpI = new Image("images/Sprites/Letters/SpI.png", 8*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
+						Image SpA = new Image("images/Sprites/Letters/SpA.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
+						Image SpL = new Image("images/Sprites/Letters/SpL.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
+
+						Image ExE = new Image("images/Sprites/Letters/ExE.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
+						Image ExX = new Image("images/Sprites/Letters/ExX.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
+						Image ExT = new Image("images/Sprites/Letters/ExT.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
+						Image ExR = new Image("images/Sprites/Letters/ExR.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
+						Image ExA = new Image("images/Sprites/Letters/ExA.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
+
+						Image MuX = new Image("images/Sprites/Letters/MuX.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
+						Image Mu2 = new Image("images/Sprites/Letters/Mu2.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
+						Image Mu3 = new Image("images/Sprites/Letters/Mu3.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
+						Image Mu5 = new Image("images/Sprites/Letters/Mu5.png", 9*GameStage.PIXEL_SIZE, 8*GameStage.PIXEL_SIZE, false, false);
+
+						System.out.print("S " + GameTimer.takenS + "\n");
+						System.out.print("P " + GameTimer.takenP + "\n");
+						System.out.print("E " + GameTimer.takenEspecial + "\n");
+						System.out.print("C " + GameTimer.takenC + "\n");
+						System.out.print("I " + GameTimer.takenI + "\n");
+						System.out.print("A " + GameTimer.takenAspecial + "\n");
+						System.out.println("L " + GameTimer.takenL + "\n");
+
+						if(GameTimer.takenS == true ) this.gc.drawImage(SpS, 28 + 0*8*GameStage.PIXEL_SIZE, 32);
+						if(GameTimer.takenP == true ) this.gc.drawImage(SpP, 28 + 1*8*GameStage.PIXEL_SIZE, 32);
+						if(GameTimer.takenEspecial == true ) this.gc.drawImage(SpE, 28 + 2*8*GameStage.PIXEL_SIZE, 32);
+						if(GameTimer.takenC == true ) this.gc.drawImage(SpC, 28 + 3*8*GameStage.PIXEL_SIZE, 32);
+						if(GameTimer.takenI == true ) this.gc.drawImage(SpI, 28 + 4*8*GameStage.PIXEL_SIZE, 32);
+						if(GameTimer.takenAspecial == true ) this.gc.drawImage(SpA, 28 + 5*8*GameStage.PIXEL_SIZE, 32);
+						if(GameTimer.takenL == true ) this.gc.drawImage(SpL, 28 + 6*8*GameStage.PIXEL_SIZE, 32);
+
+						if(GameTimer.takenEextra == true ) this.gc.drawImage(ExE, 8 + 28*3 + 7*8*GameStage.PIXEL_SIZE + 0*8*GameStage.PIXEL_SIZE, 32);
+						if(GameTimer.takenX == true ) this.gc.drawImage(ExX, 8 + 28*3 + 7*8*GameStage.PIXEL_SIZE + 1*8*GameStage.PIXEL_SIZE, 32);
+						if(GameTimer.takenT == true ) this.gc.drawImage(ExT, 8 + 28*3 + 7*8*GameStage.PIXEL_SIZE + 2*8*GameStage.PIXEL_SIZE, 32);
+						if(GameTimer.takenR == true ) this.gc.drawImage(ExR, 8 + 28*3 + 7*8*GameStage.PIXEL_SIZE + 3*8*GameStage.PIXEL_SIZE, 32);
+						if(GameTimer.takenAextra == true ) this.gc.drawImage(ExA, 8 + 28*3 + 7*8*GameStage.PIXEL_SIZE + 4*8*GameStage.PIXEL_SIZE, 32);
+
+						if(GameTimer.multiplier == 2 ) this.gc.drawImage(MuX, 12 + 28*5 + 12*8*GameStage.PIXEL_SIZE + 0*8*GameStage.PIXEL_SIZE, 32);
+						if(GameTimer.multiplier == 2 ) this.gc.drawImage(Mu2, 12 +  28*5 + 12*8*GameStage.PIXEL_SIZE + 1*8*GameStage.PIXEL_SIZE, 32);
+						if(GameTimer.multiplier == 3 ) this.gc.drawImage(MuX, 12 + 28*5 + 12*8*GameStage.PIXEL_SIZE + 2*8*GameStage.PIXEL_SIZE, 32);
+						if(GameTimer.multiplier == 3 ) this.gc.drawImage(Mu3, 12 + 28*5 + 12*8*GameStage.PIXEL_SIZE + 3*8*GameStage.PIXEL_SIZE, 32);
+						if(GameTimer.multiplier == 5 ) this.gc.drawImage(MuX, 12 + 28*5 + 12*8*GameStage.PIXEL_SIZE + 4*8*GameStage.PIXEL_SIZE, 32);
+						if(GameTimer.multiplier == 5 ) this.gc.drawImage(Mu5, 12 + 28*5 + 12*8*GameStage.PIXEL_SIZE + 5*8*GameStage.PIXEL_SIZE, 32);
 			
 			for (int i=0; i<this.flowers.size(); i++) {
 				if(this.flowers.get(i).collidesWith(this.ladybug)) {
@@ -349,6 +351,7 @@ public class GameTimer extends AnimationTimer{
 					}
 					this.startSpawn = System.nanoTime();
 					GameTimer.insectTime=1;
+					GameTimer.allInsectReleased=false;
 					GameTimer.deathTransition=true;
 					this.frozenMilli=currentMilli+1500;
 				}
@@ -366,7 +369,7 @@ public class GameTimer extends AnimationTimer{
 					this.vegetable.remove(i);
 					GameTimer.vegetablePresent=false;
 					this.disabled=true;
-					this.frozenSec = currentSec+4;
+					this.frozenSec = currentSec+5;
 					for(Insect insect:this.insects) {
 						insect.setFrozen();
 					}

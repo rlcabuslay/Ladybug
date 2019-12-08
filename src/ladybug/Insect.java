@@ -8,6 +8,8 @@ public class Insect extends Sprite{
 	private boolean turn;
 	private String name;
 	private boolean released;
+	private int turnTime;
+	private long start;
 	
 	public final static Image INSECT_IMAGE1 = new Image("images/Sprites/Characters/Insects/Insect1U.gif", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
 	public final static Image INSECT_IMAGE2 = new Image("images/Sprites/Characters/Insects/Insect2U.gif", Sprite.SPRITE_SIZE, Sprite.SPRITE_SIZE, false, false);
@@ -36,6 +38,7 @@ public class Insect extends Sprite{
 		
 		this.released=false;
 		this.turn=false;
+		this.turnTime=1; 
 	}
 	
 	public String getName(){
@@ -47,8 +50,9 @@ public class Insect extends Sprite{
 		this.turn=false;
 		this.setDY(0);
 		this.setDX(0);
-		this.setX(GameStage.WINDOW_WIDTH/2-25);
-		this.setY(GameStage.WINDOW_HEIGHT/2-70);
+		this.setX(GameStage.locateXGrid(6));
+		this.setY(GameStage.locateYGrid(6));
+		this.turnTime=1; //resets time interval
     }
 	
 	public void setReleased() {
@@ -57,23 +61,18 @@ public class Insect extends Sprite{
 	
 	public boolean getReleased() {
 		return this.released;
+		this.start = System.nanoTime(); //gets the time when it was released
 	}
 	
 	public void setFrozen() {
 		this.released=false;
 	}
 
-	public void move() {
+	public void move(long currentSec) {
 		if(this.released==true) {
-//			Random r = new Random();
-//			int rand=r.nextInt(4);
-//			if(rand==0) this.setDX(1);
-//			else if(rand==1) this.setDX(-1);
-//			else if(rand==2) this.setDY(1);
-//			else if(rand==3) this.setDY(-1);
-//			this.setDY(-1);
-//			this.x += this.dx;
-//	    	this.y += this.dy;
+			Random r = new Random();
+			int randSec=r.nextInt(5)+1; //maximum of 5 seconds without changing direction
+			long startSec = TimeUnit.NANOSECONDS.toSeconds(this.start);
 			
 			if(this.turn==false) this.setDY(-1*(GameTimer.currentLevel+1));
 			
@@ -85,17 +84,16 @@ public class Insect extends Sprite{
 			}
 			else {
 				this.turn=true;
-				Random r = new Random();
 				int rand=r.nextInt(3);
-				if(rand==0) {
+				if(rand==0) { //turns down
 					this.setDY(1*(GameTimer.currentLevel+1));
 					this.setDX(0);
 				}
-				else if(rand==1) {
+				else if(rand==1) { //turns up
 					this.setDY(-1*(GameTimer.currentLevel+1));
 					this.setDX(0);
 				}
-				else if(rand==2) this.setDX(this.getDX()*-1);
+				else if(rand==2) this.setDX(this.getDX()*-1); //changes from left to right or right to left
 				
 			}
 				
@@ -104,18 +102,40 @@ public class Insect extends Sprite{
 			}
 			else {
 				this.turn=true;
-				Random r = new Random();
 				int rand=r.nextInt(3);
-				if(rand==0) {
+				if(rand==0) { //turns right
 					this.setDX(1*(GameTimer.currentLevel+1));
 					this.setDY(0);
 				}
-				else if(rand==1) {
+				else if(rand==1) { //turns left
 					this.setDX(-1*(GameTimer.currentLevel+1));
 					this.setDY(0);
 				}
-				else if(rand==2) this.setDY(this.getDY()*-1);
+				else if(rand==2) this.setDY(this.getDY()*-1); //changes from up to down or down to up
 				
+			}
+			
+			//currentSec - second it was released 
+			if((currentSec-startSec) == (randSec*(this.turnTime))) {
+				this.turn=true;
+				this.turnTime++;
+				int rand=r.nextInt(4);
+				if(rand==0) { //turns up
+					this.setDY(1*(GameTimer.currentLevel+1));
+					this.setDX(0);
+				}
+				else if(rand==1) { //turns down
+					this.setDY(-1*(GameTimer.currentLevel+1));
+					this.setDX(0);
+				}
+				else if(rand==2) { //turns right
+					this.setDX(1*(GameTimer.currentLevel+1));
+					this.setDY(0);
+				}
+				else if(rand==3) { //turns left
+					this.setDX(-1*(GameTimer.currentLevel+1));
+					this.setDY(0);
+				}
 			}
 		}
     	

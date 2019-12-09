@@ -508,6 +508,7 @@ public class GameTimer extends AnimationTimer{
 		
 		if(GameStage.IS_GAME_DONE==true) {
 			this.gc.drawImage(GameStage.gameover, 0, 64);
+			GameStage.IS_GAME_DONE = false;
 			this.stop();
 		}
 		

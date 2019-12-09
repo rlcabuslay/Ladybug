@@ -9,6 +9,7 @@ public class Insect extends Sprite{
 	private boolean turn;
 	private String name;
 	private boolean released;
+	private boolean frozen;
 	private int turnTime;
 	private long start;
 	
@@ -88,6 +89,7 @@ public class Insect extends Sprite{
 		}
 		
 		this.released=false;
+		this.frozen=false;
 		this.turn=false;
 		this.turnTime=1; 
 	}
@@ -116,11 +118,15 @@ public class Insect extends Sprite{
 	}
 	
 	public void setFrozen() {
-		this.released=false;
+		this.frozen=true;
+	}
+	
+	public void setUnFrozen() {
+		this.frozen=false;
 	}
 
 	public void move(long currentSec) {
-		if(this.released==true) {
+		if(this.released==true&&this.frozen==false) {
 			
 			if(this.getDY()<0) {
 				if(this.name=="Insect1") {

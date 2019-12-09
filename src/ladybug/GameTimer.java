@@ -87,6 +87,7 @@ public class GameTimer extends AnimationTimer{
 		this.gameBoard = new int[11][11];
 		initGameBoard();
 		
+		// ==================== FOR MAX COLLECTIBLES ==================== //  
 //		for(int i=0; i<11; i++) {
 //			for(int j=0; j<11; j++) {
 //				if(this.gameBoard[i][j]==0){
@@ -113,6 +114,7 @@ public class GameTimer extends AnimationTimer{
 //			}
 //		}
 		
+		// ==================== FOR LESS COLLECTIBLES ==================== //  
 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2));
  		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+30));
  		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+60));
@@ -535,6 +537,7 @@ public class GameTimer extends AnimationTimer{
 		this.gameBoard = new int[11][11];
 		initGameBoard();
 		
+		// ==================== FOR MAX COLLECTIBLES ==================== // 
 //		for(int i=0; i<11; i++) {
 //			for(int j=0; j<11; j++) {
 //				if(this.gameBoard[i][j]==0){
@@ -561,6 +564,7 @@ public class GameTimer extends AnimationTimer{
 //			}
 //		}
 		
+		// ==================== FOR LESS COLLECTIBLES ==================== // 
 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2));
  		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+30));
  		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+60));

@@ -170,8 +170,14 @@ public class Collectible extends Sprite{
 			GameTimer.score+=10*(GameTimer.multiplier);
 		}
 		else if(this.name=="Vegetable") {
-			GameTimer.score+=1000+(GameTimer.currentLevel*500);
-			this.setDisplay(1000+(GameTimer.currentLevel*500));
+			if(GameTimer.currentLevel>=17) {
+				GameTimer.score+=9500;
+				this.setDisplay(9500);
+			}
+			else {
+				GameTimer.score+=1000+(GameTimer.currentLevel*500);
+				this.setDisplay(1000+(GameTimer.currentLevel*500));
+			}
 		}
 		else if(this.name=="BlueHeart"||this.name=="BlueX"||this.name=="BlueT"||this.name=="BlueR"||this.name=="BlueS"||this.name=="BlueP"||this.name=="BlueC"||this.name=="BlueI"||this.name=="BlueL"||this.name=="BlueA"||this.name=="BlueE") {
 			GameTimer.score+=100*(GameTimer.multiplier);

@@ -179,7 +179,7 @@ public class Collectible extends Sprite{
 				this.setDisplay(1000+(GameTimer.currentLevel*500));
 			}
 		}
-		else if(this.name=="BlueHeart"||this.name=="BlueX"||this.name=="BlueT"||this.name=="BlueR"||this.name=="BlueS"||this.name=="BlueP"||this.name=="BlueC"||this.name=="BlueI"||this.name=="BlueL"||this.name=="BlueA"||this.name=="BlueE") {
+		else if(this.name.substring(0,3).equals("Blu")) {
 			GameTimer.score+=100*(GameTimer.multiplier);
 			this.setDisplay(100*(GameTimer.multiplier));
 			if(this.name=="BlueHeart") {
@@ -195,7 +195,7 @@ public class Collectible extends Sprite{
 				}
 			}
 		}
-		else if(this.name=="YellowHeart"||this.name=="YellowX"||this.name=="YellowT"||this.name=="YellowR"||this.name=="YellowS"||this.name=="YellowP"||this.name=="YellowC"||this.name=="YellowI"||this.name=="YellowL"||this.name=="YellowA"||this.name=="YellowE") {
+		else if(this.name.substring(0,3).equals("Yel")) {
 			GameTimer.score+=300*(GameTimer.multiplier);
 			this.setDisplay(300*(GameTimer.multiplier));
 			if(this.name=="YellowX") {
@@ -235,7 +235,7 @@ public class Collectible extends Sprite{
 				System.out.println("Special: "+c);
 			}
 		}
-		else if(this.name=="RedHeart"||this.name=="RedX"||this.name=="RedT"||this.name=="RedR"||this.name=="RedS"||this.name=="RedP"||this.name=="RedC"||this.name=="RedI"||this.name=="RedL"||this.name=="RedA"||this.name=="RedE") {
+		else if(this.name.substring(0,3).equals("Red")) {
 			GameTimer.score+=800*(GameTimer.multiplier);
 			this.setDisplay(800*(GameTimer.multiplier));
 			if(this.name=="RedS") {

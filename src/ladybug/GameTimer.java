@@ -510,6 +510,7 @@ public class GameTimer extends AnimationTimer{
 			this.gc.drawImage(GameStage.gameover, 0, 64);
 			this.stop();
 		}
+		
 	}
 	
 	private void changeLevel() {
@@ -583,6 +584,7 @@ public class GameTimer extends AnimationTimer{
 		GameTimer.multiplier=1;
 		GameTimer.insectTime=1;
 		GameTimer.vegetablePresent=false;
+		Collectible.numberBlueHearts=0;
 		if(GameTimer.currentLevel==1) GameTimer.interval=9;
 		if(GameTimer.currentLevel==4) GameTimer.interval=18;
 		System.out.println(GameTimer.currentLevel);

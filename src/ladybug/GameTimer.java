@@ -397,7 +397,7 @@ public class GameTimer extends AnimationTimer{
 			if(this.disabled==true) {
 				if(currentSec==frozenSec) {
 					for(Insect insect:this.insects) {
-						insect.setReleased();
+						insect.setUnFrozen();
 					}
 					this.disabled=false;
 				}

@@ -1,9 +1,11 @@
 package ladybug;
 
+import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
 
 public class Sprite {
 	public static final int SPRITE_SIZE = 14 * GameStage.PIXEL_SIZE;

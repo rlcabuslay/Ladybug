@@ -107,10 +107,26 @@ public class Ladybug extends Sprite{
 		int tempX = this.x + this.dx;
 		int tempY = this.y + this.dy;
 
-		if(tempX > GameStage.GAME_BOUND_LEFT && tempX < GameStage.GAME_BOUND_RIGHT)
+		if(tempX > GameStage.GAME_BOUND_LEFT && tempX < GameStage.GAME_BOUND_RIGHT) {
 			this.x = tempX;
-		if(tempY > GameStage.GAME_BOUND_UP && tempY < GameStage.GAME_BOUND_DOWN)
+			for (Rectangle b : barrier) {
+				if(this.collidesWith(b)) {
+					this.x -= this.dx;
+					break;
+				
+				}
+			}
+		}
+		if(tempY > GameStage.GAME_BOUND_UP && tempY < GameStage.GAME_BOUND_DOWN) {
 			this.y = tempY;   
+			for (Rectangle b : barrier) {
+				if(this.collidesWith(b)) {
+					this.y -= this.dy;
+					break;
+					
+				}
+			}
+		} 
 	}
 }
 

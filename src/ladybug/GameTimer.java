@@ -102,6 +102,8 @@ public class GameTimer extends AnimationTimer{
 		this.letters = new ArrayList<Collectible>();
 		this.vegetable = new ArrayList<Collectible>();
 		
+		
+		GameStage.IS_GAME_DONE = false;
 		GameTimer.multiplier=1;
 		GameTimer.score=0;
 		GameTimer.currentLevel=0;
@@ -537,7 +539,6 @@ public class GameTimer extends AnimationTimer{
 		
 		if(GameStage.IS_GAME_DONE==true) {
 			this.gc.drawImage(GameStage.gameover, 0, 64);
-			GameStage.IS_GAME_DONE = false;
 			this.stop();
 		}
 		

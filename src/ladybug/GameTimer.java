@@ -210,33 +210,33 @@ public class GameTimer extends AnimationTimer{
 			//Background Square
 			if(timer%184 < 92) this.gc.setFill(Color.WHITE);
 			else this.gc.setFill(Color.LIME);
-			this.gc.fillRect(0, 64, GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT-(64*3));
+			this.gc.fillRect(0, GameStage.CELL_SIZE, GameStage.WINDOW_WIDTH, GameStage.WINDOW_HEIGHT-(GameStage.CELL_SIZE*3));
 			
 			//Timer Bar
 			if(timer%184 < 92) this.gc.setFill(Color.LIME);
 			else this.gc.setFill(Color.WHITE);
 			
 			if(timer%92 < 12)
-				this.gc.fillRect(GameStage.WINDOW_WIDTH/2, 64, (timer%92)*32, 28);
+				this.gc.fillRect(GameStage.WINDOW_WIDTH/2, GameStage.CELL_SIZE, (timer%92)*GameStage.CELL_SIZE/2, 28);
 			else if(timer%92 < 34)
-				this.gc.fillRect(GameStage.WINDOW_WIDTH/2, 64, 12*32, 28+((timer%92)-12)*32);
+				this.gc.fillRect(GameStage.WINDOW_WIDTH/2, GameStage.CELL_SIZE, 12*GameStage.CELL_SIZE/2, GameStage.GAME_BOUND_WALL+((timer%92)-12)*GameStage.CELL_SIZE/2);
 			else
-				this.gc.fillRect(GameStage.WINDOW_WIDTH/2, 64, 12*32, 28+(34-12)*32);
+				this.gc.fillRect(GameStage.WINDOW_WIDTH/2, GameStage.CELL_SIZE, 12*GameStage.CELL_SIZE/2, GameStage.GAME_BOUND_WALL+(34-12)*GameStage.CELL_SIZE/2);
 			
 			if(timer%92 < 58)
-				this.gc.fillRect(GameStage.WINDOW_WIDTH-(((timer%92)-34)*32), GameStage.WINDOW_WIDTH+32, 24*32, 28);
+				this.gc.fillRect(GameStage.WINDOW_WIDTH-(((timer%92)-34)*GameStage.CELL_SIZE/2), GameStage.WINDOW_WIDTH+GameStage.CELL_SIZE/2, 24*GameStage.CELL_SIZE/2, GameStage.GAME_BOUND_WALL);
 			else
-				this.gc.fillRect(0, GameStage.WINDOW_WIDTH+32, 24*32, 28);
+				this.gc.fillRect(0, GameStage.WINDOW_WIDTH+GameStage.CELL_SIZE/2, 24*GameStage.CELL_SIZE/2, GameStage.GAME_BOUND_WALL);
 			
 			if(timer%92 > 58 && timer%92 < 81)
-				this.gc.fillRect(0, GameStage.WINDOW_WIDTH+4-(((timer%92)-59)*32), 28, 28+(((timer%92)-59)*32));
+				this.gc.fillRect(0, GameStage.WINDOW_WIDTH+4-(((timer%92)-59)*GameStage.CELL_SIZE/2), GameStage.GAME_BOUND_WALL, GameStage.GAME_BOUND_WALL+(((timer%92)-59)*GameStage.CELL_SIZE/2));
 			else if(timer%92 > 58 && timer%92 != 0)
-				this.gc.fillRect(0, 64, 28+(((timer%92)-81)*32), 28+(34-12)*32);
+				this.gc.fillRect(0, GameStage.CELL_SIZE, GameStage.GAME_BOUND_WALL+(((timer%92)-81)*GameStage.CELL_SIZE/2), GameStage.GAME_BOUND_WALL+(34-12)*GameStage.CELL_SIZE/2);
 			
-			this.gc.drawImage(GameStage.bg, 0, 64);
+			this.gc.drawImage(GameStage.bg, 0, GameStage.CELL_SIZE);
 			
 			for(int i=0;i<GameTimer.lives-1;i++)
-				this.gc.drawImage(Ladybug.LADYBUG_IMAGE_RIGHT, 28+(64*i), 824);
+				this.gc.drawImage(Ladybug.LADYBUG_IMAGE_RIGHT, GameStage.GAME_BOUND_WALL+(GameStage.CELL_SIZE*i), 824);
 			
 			this.gc.setFont(this.font);
 			String strLevel = Integer.toString(GameTimer.currentLevel+1); 

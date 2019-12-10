@@ -9,15 +9,15 @@ public class Collectible extends Sprite{
 	public static int numberBlueHearts=0;
 	
 	public final static Image FLOWER_IMAGE = new Image("images/Sprites/Flower.png",Collectible.FLOWER_WIDTH,Collectible.FLOWER_WIDTH,false,false);
-	private final static int FLOWER_WIDTH = 20;
+	private final static int FLOWER_WIDTH = 5 * GameStage.PIXEL_SIZE;
 	
 	public final static Image BLUEHEART_IMAGE = new Image("images/Sprites/BlueHeart.png",Collectible.HEART_WIDTH,Collectible.HEART_WIDTH,false,false);
 	public final static Image YELLOWHEART_IMAGE = new Image("images/Sprites/YellowHeart.png",Collectible.HEART_WIDTH,Collectible.HEART_WIDTH,false,false);
 	public final static Image REDHEART_IMAGE = new Image("images/Sprites/RedHeart.png",Collectible.HEART_WIDTH,Collectible.HEART_WIDTH,false,false);
-	private final static int HEART_WIDTH = 40;
+	private final static int HEART_WIDTH = 10 * GameStage.PIXEL_SIZE;
 	
 	public final static Image SKULL_IMAGE = new Image("images/Sprites/Skull.png",Collectible.SKULL_WIDTH,Collectible.SKULL_WIDTH,false,false);
-	private final static int SKULL_WIDTH = 40;
+	private final static int SKULL_WIDTH = 10 * GameStage.PIXEL_SIZE;
 	
 	public final static Image VEGETABLE1_IMAGE = new Image("images/Sprites/Characters/Vegetables/vegetable1.png",Collectible.VEGETABLE_WIDTH,Collectible.VEGETABLE_WIDTH,false,false);
 	public final static Image VEGETABLE2_IMAGE = new Image("images/Sprites/Characters/Vegetables/vegetable2.png",Collectible.VEGETABLE_WIDTH,Collectible.VEGETABLE_WIDTH,false,false);
@@ -72,7 +72,7 @@ public class Collectible extends Sprite{
 	public final static Image BLUEL_IMAGE = new Image("images/Sprites/BlueL.png",Collectible.LETTER_WIDTH,Collectible.LETTER_WIDTH,false,false);
 	public final static Image BLUEA_IMAGE = new Image("images/Sprites/BlueA.png",Collectible.LETTER_WIDTH,Collectible.LETTER_WIDTH,false,false);
 	public final static Image BLUEE_IMAGE = new Image("images/Sprites/BlueE.png",Collectible.LETTER_WIDTH,Collectible.LETTER_WIDTH,false,false);
-	private final static int LETTER_WIDTH = 40;
+	private final static int LETTER_WIDTH = 10 * GameStage.PIXEL_SIZE;
 	
 	public Collectible(String name, int x, int y){
 		super(x,y);

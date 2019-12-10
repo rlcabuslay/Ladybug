@@ -34,7 +34,9 @@ public class GameStage {
 	public final static int PIXEL_SIZE = 4;
 	
 	public final static int CELL_SIZE = 16 * GameStage.PIXEL_SIZE;
-		
+	public final static int WALL_SIZE = 2*GameStage.PIXEL_SIZE;
+	public final static int WALL_WIDTH = Sprite.SPRITE_SIZE - GameStage.PIXEL_SIZE*2;
+	
 	public final static int MAP_WIDTH = 190 * GameStage.PIXEL_SIZE;
 	public final static int MAP_HEIGHT = 190 * GameStage.PIXEL_SIZE;
 	public final static int WINDOW_WIDTH = 190 * GameStage.PIXEL_SIZE;
@@ -58,8 +60,19 @@ public class GameStage {
 		this.canvas = new Canvas(GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);	
 		this.gc = canvas.getGraphicsContext2D();
 		this.map = new GridPane();
+		this.barrier = new ArrayList<Rectangle>();
 		this.gametimer = new GameTimer(this.gc,this.scene);
+		this.initBarrier();
 	}
+	
+	public void initBarrier() {
+		for(int i = 1 ; i < 10; i = i+2) {
+			for(int j = 1 ; j < 10 ; j = j+3) {
+				this.barrier.add(new Rectangle(this.locXGrid(i),this.locYGrid(j),GameStage.WALL_SIZE,GameStage.WALL_WIDTH));
+			}
+		}
+	}
+	
 
 	//method to add the stage elements
 	public void setStage(Stage stage) {
@@ -87,6 +100,10 @@ public class GameStage {
 		this.root.getChildren().add(canvas);
 		this.root.getChildren().add(map);		
 		this.root.getChildren().add(play_btn);
+		for(Rectangle b: this.barrier) {
+			b.setFill(Color.ANTIQUEWHITE);
+			this.root.getChildren().add(b);
+		}
 		this.stage.setTitle("Ladybug Arcade Game");
 		this.stage.setScene(this.scene);
 		
@@ -148,6 +165,13 @@ public class GameStage {
 		return GameStage.GAME_BOUND_WALL + locY*GameStage.CELL_SIZE + GameStage.PIXEL_SIZE;
 	}
 	
+	public int locXGrid(int locX) {
+		return GameStage.GAME_BOUND_LEFT + GameStage.PIXEL_SIZE + locX*(Sprite.SPRITE_SIZE + GameStage.WALL_SIZE);
+	}
+	
+	public int locYGrid(int locY) {
+		return GameStage.GAME_BOUND_LEFT + GameStage.PIXEL_SIZE + (locY+1)*(Sprite.SPRITE_SIZE + GameStage.WALL_SIZE);
+	}
 	//======================EVENT HANDLERS===================================
 	
 	

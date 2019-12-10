@@ -20,7 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class GameTimer extends AnimationTimer{
-	
+	private ArrayList<Rectangle> barrier;
 	private GraphicsContext gc;
 	private Scene theScene;
 	private Ladybug ladybug;
@@ -246,7 +246,7 @@ public class GameTimer extends AnimationTimer{
 			this.gc.fillText("Level "+strLevel, 400, 860);
 			this.gc.fillText("Score: "+strScore, 400, 900);
 			
-			this.ladybug.move();
+			this.ladybug.move(this.barrier);
 			
 			if(this.ladybug.isAlive()==false) {
 				System.out.println("Game over!");

@@ -33,6 +33,7 @@ public class GameTimer extends AnimationTimer{
 	private long startSpawn;
 	private long frozenSec;
 	private long frozenMilli;
+	private long totalFreeze;
 	private boolean disabled;
 	private int[][] gameBoard;
 	private static boolean allInsectReleased=false;
@@ -184,6 +185,7 @@ public class GameTimer extends AnimationTimer{
 		this.startSpawn = System.nanoTime();
 		this.frozenSec=0;
 		this.frozenMilli=0;
+		this.totalFreeze=0;
 		
 		this.disabled=false;
 		
@@ -197,9 +199,9 @@ public class GameTimer extends AnimationTimer{
 		if(GameTimer.levelTransition==false&&GameTimer.deathTransition==false&&GameTimer.powerTransition==false) {
 		
 			//for game timer // to be merged
-			long currentSec = TimeUnit.NANOSECONDS.toSeconds(currentNanoTime);
+			long currentSec = TimeUnit.NANOSECONDS.toSeconds(currentNanoTime-this.totalFreeze);
 			long startSec = TimeUnit.NANOSECONDS.toSeconds(this.startSpawn);
-			int timer = (int)((TimeUnit.NANOSECONDS.toMillis(currentNanoTime*GameTimer.interval) - TimeUnit.NANOSECONDS.toMillis(this.startSpawn*interval) + (60f/92f))/1000);
+			int timer = (int)((TimeUnit.NANOSECONDS.toMillis((currentNanoTime-this.totalFreeze)*GameTimer.interval) - TimeUnit.NANOSECONDS.toMillis(this.startSpawn*interval) + (60f/92f))/1000);
 			
 			//clear and redraw background elements
 			this.gc.clearRect(0, 0, GameStage.WINDOW_WIDTH,GameStage.WINDOW_HEIGHT);
@@ -485,6 +487,7 @@ public class GameTimer extends AnimationTimer{
 		}
 		else if(currentMilli>this.frozenMilli&&this.frozenMilli!=0&&GameTimer.powerTransition==true) {
 			GameTimer.powerTransition=false;
+			this.totalFreeze+=500000000;
 		}
 		
 		
@@ -534,6 +537,8 @@ public class GameTimer extends AnimationTimer{
 			this.ladybug.loadImage(Ladybug.LADYBUG_IMAGE_UP);
 			this.ladybug.die();
 			GameTimer.deathTransition=false;
+			this.totalFreeze=0;
+			this.totalFreeze+=1500000000;
 		}
 		
 		
@@ -608,6 +613,7 @@ public class GameTimer extends AnimationTimer{
 		this.startSpawn = System.nanoTime();
 		this.frozenSec=0;
 		this.frozenMilli=0;
+		this.totalFreeze=0;
 		
 		this.disabled=false;
 		

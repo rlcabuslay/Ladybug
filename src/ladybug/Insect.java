@@ -1,7 +1,10 @@
 package ladybug;
 
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
+
 import java.util.Random;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 
@@ -125,7 +128,7 @@ public class Insect extends Sprite{
 		this.frozen=false;
 	}
 
-	public void move(long currentSec) {
+	public void move(long currentSec, ArrayList<Gate> gates) {
 		if(this.released==true&&this.frozen==false) {
 			
 			if(this.getDY()<0) {
@@ -248,6 +251,13 @@ public class Insect extends Sprite{
 
 			if(tempX > GameStage.GAME_BOUND_LEFT && tempX < GameStage.GAME_BOUND_RIGHT) {
 				this.x = tempX;
+				for (Gate g : gates) {
+					if(this.collidesWith(g)) {
+						this.y -= this.dy;
+						break;
+						
+					}
+				}
 			}
 			else {
 				this.turn=true;
@@ -266,6 +276,13 @@ public class Insect extends Sprite{
 				
 			if(tempY > GameStage.GAME_BOUND_UP && tempY < GameStage.GAME_BOUND_DOWN) {
 				this.y = tempY;
+				for (Gate g : gates) {
+					if(this.collidesWith(g)) {
+						this.y -= this.dy;
+						break;
+						
+					}
+				}
 			}
 			else {
 				this.turn=true;
@@ -302,6 +319,20 @@ public class Insect extends Sprite{
 				else if(rand==3) { //turns left
 					this.setDX(-1*(GameTimer.currentLevel+1));
 					this.setDY(0);
+				}
+				for (Gate g : gates) {
+					if(this.collidesWith(g)) {
+						this.y -= this.dy;
+						break;
+						
+					}
+				}
+				for (Gate g : gates) {
+					if(this.collidesWith(g)) {
+						this.x -= this.dx;
+						break;
+						
+					}
 				}
 			}
 		}

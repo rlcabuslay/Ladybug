@@ -31,6 +31,7 @@ public class GameTimer extends AnimationTimer{
 	private ArrayList<Collectible> skulls;
 	private ArrayList<Collectible> letters; 
 	private ArrayList<Collectible> vegetable;
+	private ArrayList<Gate> gates;
 	private long startSpawn;
 	private long frozenSec;
 	private long frozenMilli;
@@ -66,9 +67,7 @@ public class GameTimer extends AnimationTimer{
 	public static boolean takenEspecial;
 	public static ArrayList<Character> extra;
 	public static ArrayList<Character> special;
-	
-	GameTimer.extra = new ArrayList<Character>();
-	GameTimer.special = new ArrayList<Character>();
+
 	
 	private Font font = Font.loadFont(getClass().getResourceAsStream("PressStart2P-Regular.ttf"),  25);
 	private Font font2 = Font.loadFont(getClass().getResourceAsStream("PressStart2P-Regular.ttf"),  20);
@@ -92,10 +91,11 @@ public class GameTimer extends AnimationTimer{
 	public static Image Mu3 = new Image("images/Sprites/Letters/Mu3.png", 9*GameStage.PIXEL_SIZE, 9*GameStage.PIXEL_SIZE, false, false);
 	public static Image Mu5 = new Image("images/Sprites/Letters/Mu5.png", 9*GameStage.PIXEL_SIZE, 9*GameStage.PIXEL_SIZE, false, false);
 	
-	GameTimer(GraphicsContext gc, Scene theScene){
+	GameTimer(GraphicsContext gc, Scene theScene, ArrayList<Rectangle> barrier){
 		this.gc = gc;
 		this.theScene = theScene;
-
+		this.barrier = barrier;
+		
 		this.ladybug = new Ladybug("Buggy", GameStage.locateXGrid(6), GameStage.locateYGrid(9));
 		this.insects = new ArrayList<Insect>();
 		this.flowers = new ArrayList<Collectible>();
@@ -103,6 +103,7 @@ public class GameTimer extends AnimationTimer{
 		this.skulls = new ArrayList<Collectible>();
 		this.letters = new ArrayList<Collectible>();
 		this.vegetable = new ArrayList<Collectible>();
+		this.gates = new ArrayList<Gate>();
 		
 		
 		GameStage.IS_GAME_DONE = false;
@@ -110,7 +111,7 @@ public class GameTimer extends AnimationTimer{
 		GameTimer.score=0;
 		GameTimer.currentLevel=0;
 		GameTimer.lives=3;
-		GameTimer.interval = 25; //6, 9, 18
+		GameTimer.interval = 30; //6, 9, 18
 		GameTimer.insectTime=1;
 		GameTimer.deathTransition=false;
 		GameTimer.levelTransition=false;
@@ -140,48 +141,54 @@ public class GameTimer extends AnimationTimer{
 		initGameBoard();
 		
 		// ==================== FOR MAX COLLECTIBLES ==================== //  
-//		for(int i=0; i<11; i++) {
-//			for(int j=0; j<11; j++) {
-//				if(this.gameBoard[i][j]==0){
-//					this.flowers.add(new Collectible("Flower", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
-//				}
-//				else if(this.gameBoard[i][j]==1||this.gameBoard[i][j]==2||this.gameBoard[i][j]==3) {
-//					this.hearts.add(new Collectible("RedHeart", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
-//				}
-//				else if(this.gameBoard[i][j]==4) {
-//					this.letters.add(new Collectible("XTR", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
-//				}
-//				else if(this.gameBoard[i][j]==5) {
-//					this.letters.add(new Collectible("SPCIL", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
-//				}
-//				else if(this.gameBoard[i][j]==6) {
-//					this.letters.add(new Collectible("AE", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
-//				}
-//				else if(this.gameBoard[i][j]==7) {
-//					this.skulls.add(new Collectible("Skull", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
-//				}
-//				else if(this.gameBoard[i][j]==8) {
-//					this.skulls.add(new Collectible("Skull", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
-//				}
-//			}
-//		}
+		for(int i=0; i<11; i++) {
+			for(int j=0; j<11; j++) {
+				if(this.gameBoard[i][j]==0){
+					this.flowers.add(new Collectible("Flower", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
+				}
+				else if(this.gameBoard[i][j]==1||this.gameBoard[i][j]==2||this.gameBoard[i][j]==3) {
+					this.hearts.add(new Collectible("RedHeart", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
+				}
+				else if(this.gameBoard[i][j]==4) {
+					this.letters.add(new Collectible("XTR", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
+				}
+				else if(this.gameBoard[i][j]==5) {
+					this.letters.add(new Collectible("SPCIL", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
+				}
+				else if(this.gameBoard[i][j]==6) {
+					this.letters.add(new Collectible("AE", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
+				}
+				else if(this.gameBoard[i][j]==7) {
+					this.skulls.add(new Collectible("Skull", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
+				}
+				else if(this.gameBoard[i][j]==8) {
+					this.skulls.add(new Collectible("Skull", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
+				}
+			}
+		}
+		
+		for(int i=0; i<10; i++) {
+			for(int j=0; j<10; j++) {
+				this.gates.add(new Gate("Gate", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
+			}
+		}
 		
 		// ==================== FOR LESS COLLECTIBLES ==================== //  
-		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2));
- 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+30));
- 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+60));
- 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+90));
-		
- 		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2));
- 		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+50));
- 		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+100));
-		
- 		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-120));
- 		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-170));
-		
- 		this.letters.add(new Collectible("XTR", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2));
- 		this.letters.add(new Collectible("SPCIL", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+50));
- 		this.letters.add(new Collectible("AE", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+100));
+//		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2));
+// 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+30));
+// 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+60));
+// 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+90));
+//		
+// 		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2));
+// 		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+50));
+// 		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+100));
+//		
+// 		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-120));
+// 		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-170));
+//		
+// 		this.letters.add(new Collectible("XTR", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2));
+// 		this.letters.add(new Collectible("SPCIL", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+50));
+// 		this.letters.add(new Collectible("AE", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+100));
 		
 		this.startSpawn = System.nanoTime();
 		this.frozenSec=0;
@@ -255,7 +262,7 @@ public class GameTimer extends AnimationTimer{
 			}
 			
 			for(int i=0; i<this.insects.size(); i++) {
-				this.insects.get(i).move(currentSec); //gets the currentSec
+				this.insects.get(i).move(currentSec, this.gates); //gets the currentSec
 				if(this.insects.get(i).collidesWith(this.ladybug)&&this.insects.get(i).getReleased()==true) {
 					if(GameTimer.vegetablePresent==true) {
 						this.vegetable.remove(0);
@@ -277,6 +284,13 @@ public class GameTimer extends AnimationTimer{
 						this.insects.get(i).die();
 						if(GameTimer.vegetablePresent==true) {
 							this.vegetable.add(new Collectible("Vegetable", GameStage.locateXGrid(6), GameStage.locateYGrid(6)));
+						}
+					}
+				}
+				for(Gate gate:this.gates) {
+					for(Insect insect:this.insects) {
+						if(this.insects.get(i).collidesWith(gate)) {
+							insect.move(currentSec, this.gates);
 						}
 					}
 				}
@@ -476,6 +490,16 @@ public class GameTimer extends AnimationTimer{
 			for(Insect insect:this.insects) {
 				insect.render(this.gc);
 			}
+			
+			for(Gate gate:this.gates) {
+				if(this.ladybug.collidesWith(gate)) {
+					gate.rotate();
+				}
+			}
+			
+			for(Gate gate:this.gates) {
+				gate.render(this.gc);
+			}
 		
 		}
 		
@@ -558,6 +582,34 @@ public class GameTimer extends AnimationTimer{
 		this.skulls = new ArrayList<Collectible>();
 		this.letters = new ArrayList<Collectible>();
 		this.vegetable = new ArrayList<Collectible>();
+		this.gates = new ArrayList<Gate>();
+		
+		
+		GameStage.IS_GAME_DONE = false;
+		GameTimer.multiplier=1;
+		GameTimer.score=0;
+		GameTimer.currentLevel=0;
+		GameTimer.lives=3;
+		GameTimer.interval = 25; //6, 9, 18
+		GameTimer.insectTime=1;
+		GameTimer.deathTransition=false;
+		GameTimer.levelTransition=false;
+		GameTimer.powerTransition=false;
+		GameTimer.vegetablePresent=false;
+		GameTimer.takenX=false;
+		GameTimer.takenT=false;
+		GameTimer.takenR=false;
+		GameTimer.takenS=false;
+		GameTimer.takenP=false;
+		GameTimer.takenC=false;
+		GameTimer.takenI=false;
+		GameTimer.takenL=false;
+		GameTimer.takenAextra=false;
+		GameTimer.takenEextra=false;
+		GameTimer.takenAspecial=false;
+		GameTimer.takenEspecial=false;
+		GameTimer.extra = new ArrayList<Character>();
+		GameTimer.special = new ArrayList<Character>();
 		
 		this.insects.add(new Insect("Insect", GameStage.locateXGrid(6), GameStage.locateYGrid(6)));
 		this.insects.add(new Insect("Insect", GameStage.locateXGrid(6), GameStage.locateYGrid(6)));
@@ -567,49 +619,55 @@ public class GameTimer extends AnimationTimer{
 		this.gameBoard = new int[11][11];
 		initGameBoard();
 		
-		// ==================== FOR MAX COLLECTIBLES ==================== // 
-//		for(int i=0; i<11; i++) {
-//			for(int j=0; j<11; j++) {
-//				if(this.gameBoard[i][j]==0){
-//					this.flowers.add(new Collectible("Flower", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
-//				}
-//				else if(this.gameBoard[i][j]==1||this.gameBoard[i][j]==2||this.gameBoard[i][j]==3) {
-//					this.hearts.add(new Collectible("RedHeart", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
-//				}
-//				else if(this.gameBoard[i][j]==4) {
-//					this.letters.add(new Collectible("XTR", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
-//				}
-//				else if(this.gameBoard[i][j]==5) {
-//					this.letters.add(new Collectible("SPCIL", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
-//				}
-//				else if(this.gameBoard[i][j]==6) {
-//					this.letters.add(new Collectible("AE", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
-//				}
-//				else if(this.gameBoard[i][j]==7) {
-//					this.skulls.add(new Collectible("Skull", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
-//				}
-//				else if(this.gameBoard[i][j]==8) {
-//					this.skulls.add(new Collectible("Skull", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
-//				}
-//			}
-//		}
+		// ==================== FOR MAX COLLECTIBLES ==================== //  
+		for(int i=0; i<11; i++) {
+			for(int j=0; j<11; j++) {
+				if(this.gameBoard[i][j]==0){
+					this.flowers.add(new Collectible("Flower", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
+				}
+				else if(this.gameBoard[i][j]==1||this.gameBoard[i][j]==2||this.gameBoard[i][j]==3) {
+					this.hearts.add(new Collectible("RedHeart", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
+				}
+				else if(this.gameBoard[i][j]==4) {
+					this.letters.add(new Collectible("XTR", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
+				}
+				else if(this.gameBoard[i][j]==5) {
+					this.letters.add(new Collectible("SPCIL", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
+				}
+				else if(this.gameBoard[i][j]==6) {
+					this.letters.add(new Collectible("AE", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
+				}
+				else if(this.gameBoard[i][j]==7) {
+					this.skulls.add(new Collectible("Skull", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
+				}
+				else if(this.gameBoard[i][j]==8) {
+					this.skulls.add(new Collectible("Skull", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
+				}
+			}
+		}
 		
-		// ==================== FOR LESS COLLECTIBLES ==================== // 
-		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2));
- 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+30));
- 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+60));
- 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+90));
+		for(int i=0; i<10; i++) {
+			for(int j=0; j<10; j++) {
+				this.gates.add(new Gate("Gate", GameStage.locateXGrid(i+1), GameStage.locateYGrid(j+1)));
+			}
+		}
 		
- 		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2));
- 		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+50));
- 		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+100));
-		
- 		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-120));
- 		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-170));
-		
- 		this.letters.add(new Collectible("XTR", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2));
- 		this.letters.add(new Collectible("SPCIL", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+50));
- 		this.letters.add(new Collectible("AE", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+100));
+		// ==================== FOR LESS COLLECTIBLES ==================== //  
+//		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2));
+// 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+30));
+// 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+60));
+// 		this.flowers.add(new Collectible("Flower", GameStage.WINDOW_WIDTH/2-100,GameStage.WINDOW_HEIGHT/2+90));
+//		
+// 		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2));
+// 		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+50));
+// 		this.hearts.add(new Collectible("RedHeart", GameStage.WINDOW_WIDTH/2-200,GameStage.WINDOW_HEIGHT/2+100));
+//		
+// 		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-120));
+// 		this.skulls.add(new Collectible("Skull", GameStage.WINDOW_WIDTH/2-25,GameStage.WINDOW_HEIGHT/2-170));
+//		
+// 		this.letters.add(new Collectible("XTR", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2));
+// 		this.letters.add(new Collectible("SPCIL", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+50));
+// 		this.letters.add(new Collectible("AE", GameStage.WINDOW_WIDTH/2-275,GameStage.WINDOW_HEIGHT/2+100));
 		
 		this.startSpawn = System.nanoTime();
 		this.frozenSec=0;

@@ -18,6 +18,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.control.Button;
@@ -30,6 +31,7 @@ public class GameStage {
 	private GraphicsContext gc;
 	private GridPane map;
 	private GameTimer gametimer;
+	private ArrayList<Rectangle> barrier;
 	
 	public final static int PIXEL_SIZE = 4;
 	
@@ -61,7 +63,7 @@ public class GameStage {
 		this.gc = canvas.getGraphicsContext2D();
 		this.map = new GridPane();
 		this.barrier = new ArrayList<Rectangle>();
-		this.gametimer = new GameTimer(this.gc,this.scene);
+		this.gametimer = new GameTimer(this.gc,this.scene,this.barrier);
 		this.initBarrier();
 	}
 	

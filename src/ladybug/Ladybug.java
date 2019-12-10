@@ -1,5 +1,7 @@
 package ladybug;
 
+import java.util.ArrayList;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
@@ -55,8 +57,8 @@ public class Ladybug extends Sprite{
 			this.alive = false;
 		}
 		else {
-			this.setX(GameStage.WINDOW_WIDTH/2-50);
-			this.setY(GameStage.WINDOW_HEIGHT/2+50);
+			this.setX(GameStage.locateXGrid(6));
+			this.setY(GameStage.locateYGrid(9));
 		}
     }
 	
@@ -104,7 +106,7 @@ public class Ladybug extends Sprite{
 	}
 	
 
-	public void move() {
+	public void move(ArrayList<Rectangle> barrier) {
 		int tempX = this.x + this.dx;
 		int tempY = this.y + this.dy;
 

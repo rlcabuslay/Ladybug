@@ -40,30 +40,34 @@ public class GameTimer extends AnimationTimer{
 	private static int currentDisplayX;
 	private static int currentDisplayY;
 	
-	public static int multiplier=1;
-	public static int score=0;
-	public static int currentLevel=0;
-	public static int lives=3;
-	public static long interval = 6; //6, 9, 18
-	public static int insectTime=1;
-	public static boolean deathTransition=false;
-	public static boolean levelTransition=false;
-	public static boolean powerTransition=false;
-	public static boolean vegetablePresent=false;
-	public static boolean takenX=false;
-	public static boolean takenT=false;
-	public static boolean takenR=false;
-	public static boolean takenS=false;
-	public static boolean takenP=false;
-	public static boolean takenC=false;
-	public static boolean takenI=false;
-	public static boolean takenL=false;
-	public static boolean takenAextra=false;
-	public static boolean takenEextra=false;
-	public static boolean takenAspecial=false;
-	public static boolean takenEspecial=false;
-	public static ArrayList<Character> extra = new ArrayList<Character>();
-	public static ArrayList<Character> special = new ArrayList<Character>();
+	public static int multiplier;
+	public static int score;
+	public static int currentLevel;
+	public static int lives;
+	public static long interval;
+	public static int insectTime;
+	public static boolean deathTransition;
+	public static boolean levelTransition;
+	public static boolean powerTransition;
+	public static boolean vegetablePresent;
+	public static boolean takenX;
+	public static boolean takenT;
+	public static boolean takenR;
+	public static boolean takenS;
+	public static boolean takenP;
+	public static boolean takenC;
+	public static boolean takenI;
+	public static boolean takenL;
+	public static boolean takenAextra;
+	public static boolean takenEextra;
+	public static boolean takenAspecial;
+	public static boolean takenEspecial;
+	public static ArrayList<Character> extra;
+	public static ArrayList<Character> special;
+	
+	GameTimer.extra = new ArrayList<Character>();
+	GameTimer.special = new ArrayList<Character>();
+	
 	private Font font = Font.loadFont(getClass().getResourceAsStream("PressStart2P-Regular.ttf"),  25);
 	private Font font2 = Font.loadFont(getClass().getResourceAsStream("PressStart2P-Regular.ttf"),  20);
 	
@@ -97,6 +101,31 @@ public class GameTimer extends AnimationTimer{
 		this.skulls = new ArrayList<Collectible>();
 		this.letters = new ArrayList<Collectible>();
 		this.vegetable = new ArrayList<Collectible>();
+		
+		GameTimer.multiplier=1;
+		GameTimer.score=0;
+		GameTimer.currentLevel=0;
+		GameTimer.lives=3;
+		GameTimer.interval = 25; //6, 9, 18
+		GameTimer.insectTime=1;
+		GameTimer.deathTransition=false;
+		GameTimer.levelTransition=false;
+		GameTimer.powerTransition=false;
+		GameTimer.vegetablePresent=false;
+		GameTimer.takenX=false;
+		GameTimer.takenT=false;
+		GameTimer.takenR=false;
+		GameTimer.takenS=false;
+		GameTimer.takenP=false;
+		GameTimer.takenC=false;
+		GameTimer.takenI=false;
+		GameTimer.takenL=false;
+		GameTimer.takenAextra=false;
+		GameTimer.takenEextra=false;
+		GameTimer.takenAspecial=false;
+		GameTimer.takenEspecial=false;
+		GameTimer.extra = new ArrayList<Character>();
+		GameTimer.special = new ArrayList<Character>();
 		
 		this.insects.add(new Insect("Insect", GameStage.locateXGrid(6), GameStage.locateYGrid(6)));
 		this.insects.add(new Insect("Insect", GameStage.locateXGrid(6), GameStage.locateYGrid(6)));

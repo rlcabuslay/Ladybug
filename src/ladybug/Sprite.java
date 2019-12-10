@@ -47,11 +47,20 @@ public class Sprite {
 
 		return rectangle1.intersects(rectangle2);
 	}
+	public boolean collidesWith(Rectangle barrier)	{
+		Bounds rectangle1 = this.getRectangle().getBoundsInLocal();
+		Bounds rectangle2 = barrier.getBoundsInLocal();
+
+		return rectangle1.intersects(rectangle2);
+	}
 	//method that will return the bounds of an image
 	private Rectangle2D getBounds(){
 		return new Rectangle2D(this.x, this.y, this.width, this.height);
 	}
 	
+	private Rectangle getRectangle(){
+		return new Rectangle(this.x, this.y, this.width, this.height);
+	}
 	//method to return the image
 	Image getImage(){
 		return this.img;

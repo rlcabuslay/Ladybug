@@ -2,6 +2,7 @@ package ladybug;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
 
 public class Ladybug extends Sprite{
 	private String name;
